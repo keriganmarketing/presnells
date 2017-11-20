@@ -1,0 +1,3 @@
+[09-Mar-2017 22:44:24 America/New_York] PHP Fatal error:  Call to undefined function _deprecated_file() in /home/presnellsrvresor/public_html/wp-includes/rss-functions.php on line 8
+[22-Mar-2017 01:56:17 America/New_York] PHP Fatal error:  Call to undefined function _deprecated_file() in /home/presnellsrvresor/public_html/wp-includes/registration-functions.php on line 7
+[22-Mar-2017 19:29:26 America/New_York] PHP Fatal error:  Call to undefined function _deprecated_file() in /home/presnellsrvresor/public_html/wp-includes/registration-functions.php on line 7

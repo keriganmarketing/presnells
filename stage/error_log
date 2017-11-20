@@ -1,0 +1,7 @@
+[16-Feb-2016 17:12:13 UTC] PHP Fatal error:  Call to undefined function truncate() in /home/presnellsrvresor/public_html/stage/wp-content/themes/resort/front-page.php on line 181
+[02-Apr-2017 12:31:11 UTC] PHP Warning:  Parameter 1 to wp_default_scripts() expected to be a reference, value given in /home/presnellsrvresor/public_html/stage/wp-includes/plugin.php on line 601
+[02-Apr-2017 12:31:11 UTC] PHP Warning:  Parameter 1 to wp_default_styles() expected to be a reference, value given in /home/presnellsrvresor/public_html/stage/wp-includes/plugin.php on line 601
+[02-Apr-2017 20:46:44 UTC] PHP Warning:  Parameter 1 to wp_default_scripts() expected to be a reference, value given in /home/presnellsrvresor/public_html/stage/wp-includes/plugin.php on line 601
+[02-Apr-2017 20:46:44 UTC] PHP Warning:  Parameter 1 to wp_default_styles() expected to be a reference, value given in /home/presnellsrvresor/public_html/stage/wp-includes/plugin.php on line 601
+[03-Apr-2017 07:04:47 UTC] PHP Warning:  Parameter 1 to wp_default_scripts() expected to be a reference, value given in /home/presnellsrvresor/public_html/stage/wp-includes/plugin.php on line 601
+[03-Apr-2017 07:04:47 UTC] PHP Warning:  Parameter 1 to wp_default_styles() expected to be a reference, value given in /home/presnellsrvresor/public_html/stage/wp-includes/plugin.php on line 601
