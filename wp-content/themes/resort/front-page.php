@@ -171,7 +171,7 @@ get_header(); ?>
 									
 									<?php
 										echo '<p class="review-text">';
-										echo truncate($content, 157, '<a class="review-more" href="/reviews/#'.$slug.'" >READ MORE</a>' );
+										echo truncate($content, 157, '... <a style="color:rgba(255,255,255,.6)" class="review-more" href="/reviews/#'.$slug.'" >READ MORE</a>' );
 										echo '</p>';
 										echo '<span class="reviewby">&mdash; ';
 										if($author !=''){ echo $author.', ';  }

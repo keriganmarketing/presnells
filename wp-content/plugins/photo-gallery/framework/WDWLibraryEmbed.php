@@ -4,30 +4,8 @@
  * Class for handling embedded media in gallery
  *
  */
-
 class WDWLibraryEmbed {
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Events                                                                             //
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Constants                                                                          //
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Variables                                                                          //
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Constructor & Destructor                                                           //
-  ////////////////////////////////////////////////////////////////////////////////////////
-  public function __construct() {
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Public Methods                                                                     //
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Getters & Setters                                                                  //
-  ////////////////////////////////////////////////////////////////////////////////////////
+  public function __construct() {}
 
   public function get_provider($oembed, $url, $args = '') {
 		$provider = false;
@@ -153,8 +131,8 @@ class WDWLibraryEmbed {
           'filename' => $filename,
           'url' => $url,
           'reliative_url' => $url,
-          'thumb_url' => 'https://instagram.com/p/' . $thumb_filename . '/media/?size=t',
-          'thumb' => 'https://instagram.com/p/' . $thumb_filename . '/media/?size=t',
+          'thumb_url' => 'https://instagram.com/p/' . $thumb_filename . '/media/?size=m',
+          'thumb' => 'https://instagram.com/p/' . $thumb_filename . '/media/?size=m',
           'size' => '',
           'filetype' => $embed_type,
           'date_modified' => date('d F Y, H:i'),
@@ -225,8 +203,8 @@ class WDWLibraryEmbed {
           'filename' => $filename,
           'url' => $url,
           'reliative_url' => $url,
-          'thumb_url' => 'https://instagram.com/p/' . $filename . '/media/?size=t',
-          'thumb' => 'https://instagram.com/p/' . $filename . '/media/?size=t',
+          'thumb_url' => 'https://instagram.com/p/' . $filename . '/media/?size=m',
+          'thumb' => 'https://instagram.com/p/' . $filename . '/media/?size=m',
           'size' => '',
           'filetype' => $embed_type,
           'date_modified' => date('d F Y, H:i'),
@@ -531,10 +509,4 @@ class WDWLibraryEmbed {
 
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Private Methods                                                                    //
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Listeners                                                                          //
-  ////////////////////////////////////////////////////////////////////////////////////////
 }

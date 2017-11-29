@@ -1,27 +1,12 @@
 ﻿<?php
-
 class BWGViewGalleries_bwg {
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Events                                                                             //
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Constants                                                                          //
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Variables                                                                          //
-  ////////////////////////////////////////////////////////////////////////////////////////
+ 
   private $model;
-
-
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Constructor & Destructor                                                           //
-  ////////////////////////////////////////////////////////////////////////////////////////
+  
   public function __construct($model) {
     $this->model = $model;
   }
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Public Methods                                                                     //
-  ////////////////////////////////////////////////////////////////////////////////////////
+  
   public function display() {
     global $WD_BWG_UPLOAD_DIR;
     $rows_data = $this->model->get_rows_data();
@@ -39,14 +24,14 @@ class BWGViewGalleries_bwg {
       'delete_all' => __('Delete', 'bwg_back')
     );
     ?>
-    <form class="wrap bwg_form" id="galleries_form" method="post" action="admin.php?page=galleries_bwg" style="float: left; width: 98%;">
-      <?php wp_nonce_field( 'galleries_bwg', 'bwg_nonce' ); ?>
+    <form class="wrap bwg_form" id="galleries_form" method="post" action="admin.php?page=galleries_bwg" style="width: 98%; float: left;">
+    <?php wp_nonce_field( 'galleries_bwg', 'bwg_nonce' ); ?>
       <div>
         <span class="gallery-icon"></span>
         <h2>
           <?php _e("Galleries", 'bwg_back'); ?>
-          <a href="" id="galleries_id" class="add-new-h2" onclick="spider_set_input_value('task', 'add');
-                                                 spider_form_submit(event, 'galleries_form')"><?php _e("Add new", 'bwg_back'); ?></a>
+          <a href="" id="galleries_id"  class="add-new-h2" onclick="spider_set_input_value('task', 'add');
+                                                 spider_form_submit(event, 'galleries_form')"><?php _e('Add new', 'bwg_back'); ?></a>
         </h2>
       </div>
       <div id="draganddrop" class="wd_updated" style="display:none;"><strong><p><?php _e("Changes made in this table should be saved.", 'bwg_back'); ?></p></strong></div>
@@ -67,6 +52,14 @@ class BWGViewGalleries_bwg {
         ?>
         </select>
         <input class="wd-btn wd-btn-primary wd-btn-icon wd-btn-apply" type="button" title="<?php _e("Apply","bwg_back"); ?>" onclick="if (!bwg_bulk_actions('.bulk_action', 'gallery_page')) {return false;}" value="<?php _e("Apply","bwg_back"); ?>" />
+        <?php
+        if ( is_plugin_active( 'image-optimizer-wd/io-wd.php' ) && !empty($rows_data)) {
+
+          ?>
+          <a href="<?php echo add_query_arg(array( 'page' => 'iowd_settings', 'target' => 'wd_gallery'), admin_url('admin.php'));?>" class="wd-btn wd-btn-primary" target="_blank"><?php _e("Optimize Images", "bwg_back"); ?></a>
+          <?php
+        }
+        ?>
         <?php WDWLibrary::html_page_nav($page_nav['total'], $pager++, $page_nav['limit'], 'galleries_form', $per_page); ?>
       </div>
       <table class="wp-list-table widefat fixed pages">
@@ -532,12 +525,15 @@ class BWGViewGalleries_bwg {
       <table style="clear:both; width:99.9%">
         <tbody>
           <tr>
-            <td class="spider_label_galleries"><label for="name"><?php _e("Name:", 'bwg_back'); ?> <span style="color:#FF0000;">*</span> </label></td>
+            <td class="spider_label_galleries"><label for="name"><?php _e('Name:', 'bwg_back'); ?> <span style="color:#FF0000;">*</span> </label></td>
             <td><input type="text" id="name" name="name" value="<?php echo $row->name; ?>" size="39" class="bwg_requried"/></td>
           </tr>
           <tr>
-            <td class="spider_label_galleries"><label for="slug"><?php _e("Slug:", 'bwg_back'); ?> </label></td>
-            <td><input type="text" id="slug" name="slug" value="<?php echo $row->slug; ?>" size="39" /></td>
+            <td class="spider_label_galleries"><label for="slug"><?php _e('Slug:', 'bwg_back'); ?> </label></td>
+            <td>
+				<input type="text" id="slug" name="slug" value="<?php echo $row->slug; ?>" size="39" />
+				<input type="hidden" id="old_slug" name="old_slug" value="<?php echo $row->slug; ?>" size="39" />
+			</td>
           </tr>
           <tr>
             <td class="spider_label_galleries"><label for="gallery_type" ><?php _e("Gallery content type:", 'bwg_back'); ?> </label></td>
@@ -731,6 +727,14 @@ class BWGViewGalleries_bwg {
         ?>
       </select>
       <input class="wd-btn wd-btn-primary wd-btn-icon wd-btn-apply" type="button" title="<?php _e("Apply", "bwg_back"); ?>" onclick="if (!bwg_bulk_actions('.bulk_action_img', '')) {return false;}" value="<?php _e("Apply", "bwg_back"); ?>" />
+      <?php
+      if ( is_plugin_active( 'image-optimizer-wd/io-wd.php' ) && !empty($rows_data)) {
+
+        ?>
+        <a href="<?php echo add_query_arg(array( 'page' => 'iowd_settings', 'target' => 'wd_gallery'), admin_url('admin.php'));?>" class="wd-btn wd-btn-primary" target="_blank"><?php _e("Optimize Images", "bwg_back"); ?></a>
+        <?php
+      }
+      ?>
       <?php WDWLibrary::ajax_html_page_nav($page_nav['total'], $page_nav['limit'], 'galleries_form', $per_page, $pager++); ?>
     </div>
     <div class="opacity_resize_image opacity_add_embed opacity_image_desc opacity_bulk_embed bwg_opacity_media" onclick="jQuery('.opacity_add_embed').hide(); jQuery('.opacity_bulk_embed').hide(); jQuery('.opacity_resize_image').hide(); jQuery('.opacity_image_desc').hide();"></div>       

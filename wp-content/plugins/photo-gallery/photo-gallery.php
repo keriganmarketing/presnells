@@ -4,9 +4,9 @@
  * Plugin Name: Photo Gallery
  * Plugin URI: https://web-dorado.com/products/wordpress-photo-gallery-plugin.html
  * Description: This plugin is a fully responsive gallery plugin with advanced functionality.  It allows having different image galleries for your posts and pages. You can create unlimited number of galleries, combine them into albums, and provide descriptions and tags.
- * Version: 1.3.52
+ * Version: 1.3.63
  * Author: Photo Gallery Team
- * Author URI: https://web-dorado.com/
+ * Author URI: https://web-dorado.com/wordpress-plugins-bundle.html
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -15,6 +15,8 @@ define('WD_BWG_URL', plugins_url(plugin_basename(dirname(__FILE__))));
 define('WD_BWG_NAME', plugin_basename(dirname(__FILE__)));
 define('WD_BWG_PRO', false);
 define('WD_BWG_VERSION', get_option('wd_bwg_version'));
+define('WD_BWG_PREFIX', 'bwg');
+define('WD_BWG_NICENAME', __( 'Photo Gallery', WD_BWG_PREFIX ));
 $wd_bwg_inline_stiles = FALSE;
 
 function bwg_use_home_url() {
@@ -281,218 +283,15 @@ function bwg_shortcode($params) {
       }
     }
     else {
-      die();
+		return;
     }
-  }
-  shortcode_atts(array(
-    'gallery_type' => 'thumbnails',
-    'theme_id' => 1,
-  ), $params);
-  switch ($params['gallery_type']) {
-    case 'thumbnails': {
-      shortcode_atts(array(
-        'gallery_id' => 1,
-        'sort_by' => 'order',
-        'order_by' => 'asc',
-        'show_search_box' => 0,
-        'search_box_width' => 180,
-        'image_column_number' => 3,
-        'images_per_page' => 15,
-        'image_title' => 'none',
-        'image_enable_page' => 1,
-        'thumb_width' => 120,
-        'thumb_height' => 90,
-        'image_width' => 800,
-        'image_height' => 600,
-        'image_effect' => 'fade',
-        'enable_image_filmstrip' => 0,
-        'image_filmstrip_height' => 50,
-        'enable_image_ctrl_btn' => 1,
-        'enable_image_fullscreen' => 1,
-        'enable_comment_social' => 1,
-        'enable_image_facebook' => 1,
-        'enable_image_twitter' => 1,
-        'enable_image_google' => 1,
-        'watermark_type' => 'none',
-        'load_more_image_count' => 15,
-        'show_tag_box' => 0,
-        'show_gallery_description' => 0,
-        'showthumbs_name' => 0,
-      ), $params);
-      break;
-
-    }
-    
-    case 'slideshow': {
-      shortcode_atts(array(
-        'gallery_id' => 1,
-        'sort_by' => 'order',
-        'order_by' => 'asc',
-        'slideshow_effect' => 'fade',
-        'slideshow_interval' => 5,
-        'slideshow_width' => 800,
-        'slideshow_height' => 600,
-        'enable_slideshow_autoplay' => 0,
-        'enable_slideshow_shuffle' => 0,
-        'enable_slideshow_ctrl' => 1,
-        'enable_slideshow_filmstrip' => 0,
-        'slideshow_filmstrip_height' => 70,
-        'slideshow_enable_title' => 0,
-        'slideshow_title_full_width' => 0,
-        'slideshow_title_position' => 'top-right',
-        'slideshow_enable_description' => 0,
-        'slideshow_description_position' => 'bottom-right',
-        'enable_slideshow_music' => 0,
-        'slideshow_music_url' => '',
-        'slideshow_effect_duration' => 1,
-        'show_gallery_description' => 0
-      ), $params);
-      break;
-
-    }
-    case 'image_browser': {
-      shortcode_atts(array(
-        'gallery_id' => 1,
-        'sort_by' => 'order',
-        'order_by' => 'asc',
-        'show_search_box' => 0,
-        'search_box_width' => 180,
-        'image_browser_width' => 800,
-        'image_browser_title_enable' => 1,
-        'image_browser_description_enable' => 1,
-        'watermark_type' => 'none',
-        'show_gallery_description' => 0,
-        'showthumbs_name' => 0,
-      ), $params);
-      break;
-
-    }
-    case 'album_compact_preview': {
-      shortcode_atts(array(
-        'album_id' => 1,
-        'sort_by' => 'order',
-        'show_search_box' => 0,
-        'search_box_width' => 180,
-        'compuct_album_column_number' => 3,
-        'compuct_albums_per_page' => 15,
-        'compuct_album_title' => 'hover',
-        'compuct_album_view_type' => 'thumbnail',
-        'compuct_album_thumb_width' => 120,
-        'compuct_album_thumb_height' => 90,
-        'compuct_album_image_column_number' => 3,
-        'compuct_album_images_per_page' => 15,
-        'compuct_album_image_title' => 'none',
-        'compuct_album_image_thumb_width' => 120,
-        'compuct_album_image_thumb_height' => 120,
-        'compuct_album_enable_page' => 1,
-        'watermark_type' => 'none',
-        'compuct_album_load_more_image_count' => 15,
-        'compuct_albums_per_page_load_more' => 15,
-        'show_gallery_description' => 0,
-        'show_album_name' => 0,
-      ), $params);
-      break;
-
-    }
-    case 'album_extended_preview': {
-      shortcode_atts(array(
-        'album_id' => 1,
-        'sort_by' => 'order',
-        'show_search_box' => 0,
-        'search_box_width' => 180,
-        'extended_albums_per_page' => 15,
-        'extended_album_height' => 150,
-        'extended_album_description_enable' => 1,
-        'extended_album_view_type' => 'thumbnail',
-        'extended_album_thumb_width' => 120,
-        'extended_album_thumb_height' => 90,
-        'extended_album_image_column_number' => 3,
-        'extended_album_images_per_page' => 15,
-        'extended_album_image_title' => 'none',
-        'extended_album_image_thumb_width' => 120,
-        'extended_album_image_thumb_height' => 90,
-        'extended_album_enable_page' => 1,
-        'watermark_type' => 'none',
-        'extended_album_load_more_image_count' => 15,
-        'extended_albums_per_page_load_more' => 15,
-        'show_gallery_description' => 0,
-        'show_album_name' => 0,
-      ), $params);
-      break;
-
-    }
-
-    default: {
-      die();
-    }
-  }
-
-    shortcode_atts(array(
-        'popup_fullscreen' => 0,
-        'popup_autoplay' => 0,
-        'popup_width' => 800,
-        'popup_height' => 600,
-        'popup_effect' => 'fade',
-        'popup_interval' => 5,
-        'popup_enable_filmstrip' => 0,
-        'popup_filmstrip_height' => 70,
-        'popup_enable_ctrl_btn' => 1,
-        'popup_enable_fullscreen' => 1,
-        'popup_enable_info' => 1,
-        'popup_info_full_width' => 0,
-        'popup_info_always_show' => 0,
-        'popup_hit_counter' => 0,
-        'popup_enable_rate' => 0,
-        'popup_enable_comment' => 1,
-        'popup_enable_facebook' => 1,
-        'popup_enable_twitter' => 1,
-        'popup_enable_google' => 1,
-        'popup_enable_pinterest' => 0,
-        'popup_enable_tumblr' => 0,
-        'watermark_type' => 'none',
-        'popup_effect_duration' => 1,
-      ), $params);
-
-  switch ($params['watermark_type']) {
-    case 'text': {
-      shortcode_atts(array(
-        'watermark_link' => '',
-        'watermark_text' => '',
-        'watermark_font_size' => 12,
-        'watermark_font' => 'segoe ui',
-        'watermark_color' => 'FFFFFF',
-        'watermark_opacity' => 30,
-        'watermark_position' => 'bottom-right',
-      ), $params);
-      break;
-
-    }
-    case 'image': {
-      shortcode_atts(array(
-        'watermark_link' => '',
-        'watermark_url' => '',
-        'watermark_width' => 120,
-        'watermark_height' => 90,
-        'watermark_opacity' => 30,
-        'watermark_position' => 'bottom-right',
-      ), $params);
-      break;
-
-    }
-    default: {
-      $params['watermark_type'] = 'none';
-      break;
-    }
-  }
-  foreach ($params as $key => $param) {
-    if (empty($param[$key]) == FALSE) {
-      $param[$key] = esc_html(addslashes($param[$key]));
-    }
-  }
-  ob_start();
-  bwg_front_end($params);
-  return str_replace(array("\r\n", "\n", "\r"), '', ob_get_clean());
-  // return ob_get_clean();
+  }  	
+	$pairs = array();
+	$pairs = WDWLibrary::get_shortcode_option_params( $params );
+	ob_start();
+	bwg_front_end( $pairs );
+	return str_replace(array("\r\n", "\n", "\r"), '', ob_get_clean());
+    // return ob_get_clean();
 }
 add_shortcode('Best_Wordpress_Gallery', 'bwg_shortcode');
 
@@ -1703,8 +1502,9 @@ function bwg_activate() {
       'default_theme' => 0
     ));
   }
+
   $version = get_option('wd_bwg_version');
-  $new_version = '1.3.52';
+  $new_version = '1.3.63';
   if ($version && version_compare($version, $new_version, '<')) {
     require_once WD_BWG_DIR . "/update/bwg_update.php";
     bwg_update($version);
@@ -1756,7 +1556,7 @@ wp_oembed_add_provider( '#https://instagr(\.am|am\.com)/p/.*#i', 'https://api.in
 
 function bwg_update_hook() {
   $version = get_option('wd_bwg_version');
-  $new_version = '1.3.52';
+  $new_version = '1.3.63';
   if ($version && version_compare($version, $new_version, '<')) {
     require_once WD_BWG_DIR . "/update/bwg_update.php";
     bwg_update($version);
@@ -2600,3 +2400,287 @@ function bwg_overview() {
   }
 }
 add_action('init', 'bwg_overview', 9);
+
+/**
+ * Show notice to install Image Optimization plugin
+ */
+function wdpg_io_install_notice() {
+  // Show notice only on plugin pages.
+  if ( !isset($_GET['page']) || strpos(esc_html($_GET['page']), '_bwg') === FALSE ) {
+    return '';
+  }
+
+  wp_enqueue_script('thickbox');
+  wp_enqueue_script('bwg_admin', WD_BWG_URL . '/js/bwg.js', array(), wd_bwg_version());
+
+  // Remove old notice.
+  if ( get_option('wds_io_notice_status') !== FALSE ) {
+    update_option('wds_io_notice_status', '1', 'no');
+  }
+
+  $meta_value = get_option('wds_io_notice_status');
+  if ( $meta_value === '' || $meta_value === FALSE ) {
+    ob_start();
+    $prefix = WD_BWG_PREFIX;
+    $nicename = WD_BWG_NICENAME;
+    $url = WD_BWG_URL;
+    $dismiss_url = add_query_arg(array( 'action' => 'wd_io_dismiss' ), admin_url('admin-ajax.php'));
+
+    $slug = 'image-optimizer-wd';
+    $install_url = esc_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $slug), 'install-plugin_' . $slug));
+    $activation_url = na_action_link($slug.'/io-wd.php', 'activate');
+    $verify_url = add_query_arg( array ('action' => 'io_status'), admin_url('admin-ajax.php'));
+    ?>
+    <div class="notice notice-info" id="wd_io_notice_cont">
+      <p>
+        <img id="wd_io_logo_notice" src="<?php echo $url . '/images/iopLogo.png'; ?>" />
+        <?php echo sprintf(__("%s advises: Install brand new %s plugin to optimize your website images quickly and easily.", $prefix), $nicename, '<a href="https://wordpress.org/plugins/image-optimizer-wd/" title="' . __("More details", $prefix) . '" target="_blank">' .  __("Image Optimizer WD", $prefix) . '</a>'); ?>
+        <?php
+        $plugin_dir = ABSPATH . 'wp-content/plugins/image-optimizer-wd/';
+        if ( is_dir($plugin_dir) && !is_plugin_active( 'image-optimizer-wd/io-wd.php' ) ) {
+          ?>
+          <a class="button button-primary io_activaion" id="activate_now" data-install-url="<?php echo $install_url; ?>" data-activate-url="<?php echo $activation_url; ?>"><?php _e("Activate", $prefix); ?></a>
+          <a class="button button-primary io_activaion hide" id="optimize_now" href="<?php echo add_query_arg(array( 'page' => 'iowd_settings', 'target' => 'wd_gallery'), admin_url('admin.php'));?>" target="_blank"><?php _e("Optimize now", $prefix); ?></a>
+          <span class="error_activate hide"><?php _e("Activation failed, please try again.", $prefix); ?></span>
+          <?php
+        } else if( ! is_dir($plugin_dir) ) {
+          ?>
+          <a class="button button-primary io_activaion" id="install_now" data-install-url="<?php echo $install_url; ?>" data-activate-url="<?php echo $activation_url; ?>"><?php _e("Install", $prefix); ?></a>
+          <a class="button button-primary io_activaion hide" id="activate_now" data-install-url="<?php echo $install_url; ?>" data-activate-url="<?php echo $activation_url; ?>"><?php _e("Activation", $prefix); ?></a>
+          <a class="button button-primary io_activaion hide" id="optimize_now" href="<?php echo add_query_arg(array( 'page' => 'iowd_settings', 'target' => 'wd_gallery'), admin_url('admin.php'));?>" target="_blank"><?php _e("Optimize now", $prefix); ?></a>
+          <span class="error_install hide is_active"><?php _e("Installation failed, please try again.", $prefix); ?></span>
+          <?php
+        }
+        ?>
+        <span class="spinner" id="loading"></span>
+      </p>
+      <button type="button" class="wd_io_notice_dissmiss notice-dismiss" onclick="jQuery('#wd_io_notice_cont').hide(); jQuery.post('<?php echo $dismiss_url; ?>');"><span class="screen-reader-text"></span></button>
+      <div id="verifyUrl" data-url="<?php echo $verify_url ?>"></div>
+    </div>
+    <script>
+      var url = jQuery(".io_activaion").attr("data-install-url");
+      var activate_url = jQuery(".io_activaion").attr("data-activate-url");
+
+      function install_io_plugin() {
+        jQuery("#loading").addClass('is-active');
+        jQuery(this).prop('disable',true);
+        var io_plugin_url = '<?php echo plugins_url('image-optimizer-wd/io-wd.php');?>'; // Getting image optimizer plugin url
+
+        jQuery.ajax({
+          method: "POST",
+          url: url,
+        }).done(function() {
+          jQuery.ajax({ // Check if plugin installed
+            type: 'POST',
+            url: jQuery("#verifyUrl").attr('data-url'),
+            error: function()
+            {
+              jQuery("#loading").removeClass('is-active');
+              jQuery(".error_install").show();
+            },
+            success: function(response)
+            {
+              var plStatus = JSON.parse(response);
+              if(plStatus.status_install != 1) {
+                jQuery('#install_now').addClass('hide');
+                jQuery('#activate_now').removeClass('hide');
+                activate_io_plugin();
+              }
+              else {
+                jQuery("#loading").removeClass('is-active');
+                jQuery(".error_install").removeClass('hide');
+              }
+            }
+          });
+        })
+            .fail(function() {
+              //window.location = window.location.href;
+              jQuery("#loading").removeClass('is-active');
+              jQuery(".error_install").removeClass('hide');
+            });
+
+      }
+
+      function activate_io_plugin() {
+        jQuery("#loading").addClass('is-active');
+        jQuery.ajax({
+          method: "POST",
+          url: activate_url,
+        }).done(function() {
+          jQuery("#loading").removeClass('is-active');
+
+          jQuery.ajax({ // Check if plugin installed
+            type: 'POST',
+            url: jQuery("#verifyUrl").attr('data-url'),
+            error: function()
+            {
+              jQuery("#loading").removeClass('is-active');
+              jQuery(".error_activate").removeClass('hide');
+            },
+            success: function(response)
+            {
+              var plStatus = JSON.parse(response);
+              if(plStatus.status_active == 1) {
+                jQuery('#install_now').addClass('hide');
+                jQuery('#activate_now').addClass('hide');
+                jQuery('#optimize_now').removeClass('hide');
+                jQuery.post('<?php echo $dismiss_url; ?>');
+
+              }
+              else {
+                jQuery("#loading").removeClass('is-active');
+                jQuery(".error_activate").removeClass('hide');
+              }
+            }
+          });
+
+        })
+            .fail(function() {
+              //window.location = window.location.href;
+              jQuery("#loading").removeClass('is-active');
+            });
+      }
+
+      jQuery("#install_now").on("click",function(){
+        install_io_plugin();
+      })
+      jQuery("#activate_now").on("click",function(){
+        activate_io_plugin()
+      })
+
+
+    </script>
+    <style>
+      @media only screen and (max-width: 500px) {
+        body #wd_backup_logo {
+          max-width: 100%;
+        }
+        body #wd_io_notice_cont p {
+          padding-right: 25px !important;
+        }
+      }
+      .hide {
+        display: none!important;
+      }
+      #verifyUrl{
+        display: none
+      }
+
+      #loading {
+        vertical-align: middle;
+        float: none!important;
+        margin: 0 !important;
+      }
+      #wd_io_logo_notice {
+        height: 32px;
+        float: left;
+        margin-right: 10px;
+      }
+      .error_install, .error_activate {
+        color:red;
+      }
+      #wd_io_notice_cont {
+        position: relative;
+      }
+      #wd_io_notice_cont a {
+        margin: 0 5px;
+      }
+      #wd_io_notice_cont .dashicons-dismiss:before {
+        content: "\f153";
+        background: 0 0;
+        color: #72777c;
+        display: block;
+        font: 400 16px/20px dashicons;
+        speak: none;
+        height: 20px;
+        text-align: center;
+        width: 20px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .wd_io_notice_dissmiss {
+        margin-top: 5px;
+      }
+    </style>
+    <?php
+    echo ob_get_clean();
+  }
+}
+
+if( !function_exists('is_plugin_active') ) {
+  include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+}
+
+if( !is_plugin_active( 'image-optimizer-wd/io-wd.php' ) ) {
+  add_action('admin_notices', 'wdpg_io_install_notice');
+}
+
+if ( !function_exists('wd_iops_install_notice_status') ) {
+  // Add usermeta to db.
+  function wd_iops_install_notice_status() {
+    update_option('wds_io_notice_status', '1', 'no');
+  }
+  add_action('wp_ajax_wd_io_dismiss', 'wd_iops_install_notice_status');
+}
+
+//Check status image optimize install
+function check_io_status(){
+  $status_install = 0;
+  $status_active = 0;
+  $plugin_dir = ABSPATH . 'wp-content/plugins/image-optimizer-wd/';
+  if ( !is_dir($plugin_dir)){
+    $status_install = 1;
+  }else if(is_plugin_active( 'image-optimizer-wd/io-wd.php' )) {
+    $status_active = 1;
+  }
+  $jsondata = array('status_install' => $status_install, 'status_active' => $status_active);
+  echo json_encode($jsondata); exit;
+}
+add_action('wp_ajax_io_status', 'check_io_status');
+
+
+/**
+ * Get activation or deactivation link of a plugin
+ *
+ * @author Nazmul Ahsan <mail@nazmulahsan.me>
+ * @param string $plugin plugin file name
+ * @param string $action action to perform. activate or deactivate
+ * @return string $url action url
+ */
+function na_action_link( $plugin, $action = 'activate' ) {
+  if ( strpos( $plugin, '/' ) ) {
+    $plugin = str_replace( '\/', '%2F', $plugin );
+  }
+  $url = sprintf( admin_url( 'plugins.php?action=' . $action . '&plugin=%s&plugin_status=all&paged=1&s' ), $plugin );
+  $_REQUEST['plugin'] = $plugin;
+  $url = wp_nonce_url( $url, $action . '-plugin_' . $plugin );
+  return $url;
+}
+
+function bwg_add_plugin_meta_links($meta_fields, $file) {
+  if ( plugin_basename(__FILE__) == $file ) {
+    $plugin_url = "https://wordpress.org/support/plugin/photo-gallery";
+    $prefix = 'bwg';
+    $meta_fields[] = "<a href='" . $plugin_url . "' target='_blank'>" . __('Support Forum', $prefix) . "</a>";
+    $meta_fields[] = "<a href='" . $plugin_url . "/reviews#new-post' target='_blank' title='" . __('Rate', $prefix) . "'>
+            <i class='wdi-rate-stars'>"
+      . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+      . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+      . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+      . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+      . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+      . "</i></a>";
+
+    $stars_color = "#ffb900";
+
+    echo "<style>"
+      . ".wdi-rate-stars{display:inline-block;color:" . $stars_color . ";position:relative;top:3px;}"
+      . ".wdi-rate-stars svg{fill:" . $stars_color . ";}"
+      . ".wdi-rate-stars svg:hover{fill:" . $stars_color . "}"
+      . ".wdi-rate-stars svg:hover ~ svg{fill:none;}"
+      . "</style>";
+  }
+
+  return $meta_fields;
+}
+add_filter("plugin_row_meta", 'bwg_add_plugin_meta_links', 10, 2);
