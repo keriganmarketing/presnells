@@ -143,6 +143,16 @@ jQuery(document).ready(function () {
     });
     bwg_albums_galleries();
   }
+	show_hide_compact_album_view( jQuery('#album_view_type option:selected').val() );
+	jQuery(document).on('change', '#album_view_type', function() {
+		var value = jQuery(this).val();
+		show_hide_compact_album_view( value );
+	});
+	show_hide_extended_album_view( jQuery('#album_extended_view_type option:selected').val() );
+	jQuery(document).on('change', '#album_extended_view_type', function() {
+		var value = jQuery(this).val();
+		show_hide_extended_album_view( value );
+	});
 });
 
 /* Load gallery images */
@@ -335,7 +345,6 @@ function spider_ajax_save(form_id, tr_group) {
   ).success(function (data, textStatus, errorThrown) {
     if ( tr_count > bwg_save_count * tr_group || (limit !== false && limit < jQuery("#total").val() ) ) {
       spider_ajax_save(form_id, ++tr_group);
-
       return;
     }
     else {
@@ -398,6 +407,16 @@ function spider_ajax_save(form_id, tr_group) {
 
       /* Change the popup dimensions. */
       bwg_tb_window("#images_table");
+
+      /* Show popup for install manager if first gallery inserted */
+      var popup_status = jQuery(data).find('#twbb_layout').attr("data-status");
+      if(popup_status == 1) {
+        var win_height = jQuery( window ).height();
+        if( win_height < 500 ) {
+          jQuery("#twbb_layout_container").css('height', (win_height-35));
+        }
+        jQuery("#twbb_layout").removeClass("hide");
+      }
     }
   });
 
@@ -781,10 +800,13 @@ function bwg_add_tag(image_id, tagIds, titles) {
         }
         document.getElementById('tags_' + image_id).value = tag_ids;
         if (counter) {
-          jQuery("#tags_div_" + image_id).removeClass("wd-hide");
+          jQuery("#tags_div_" + image_id).parent().removeClass("tags_div_empty");
+        }
+        else {
+          jQuery("#tags_div_" + image_id).parent().addClass("tags_div_empty");
         }
       }
-	}
+	  }
   }
   jQuery(".unsaved-msg", window.parent.document).removeClass("wd-hide");
   jQuery(".ajax-msg", window.parent.document).addClass("wd-hide");
@@ -799,7 +821,7 @@ function bwg_remove_tag(tag_id, image_id) {
     tag_ids_string = tag_ids_string.replace(tag_id + ',', '');
     jQuery("#tags_" + image_id).val(tag_ids_string);
     if (jQuery("#tags_" + image_id).val() == '') {
-      jQuery("#tags_div_" + image_id).addClass("wd-hide");
+      jQuery("#tags_div_" + image_id).parent().addClass("tags_div_empty");
     }
     jQuery(".unsaved-msg").removeClass("wd-hide");
     jQuery(".ajax-msg").addClass("wd-hide");
@@ -1992,4 +2014,170 @@ function bwg_galleries_ordering () {
 			});
 		}
 	});
+}
+
+function show_hide_compact_album_view ( val ) {
+	switch(val) {
+		case 'thumbnail': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_images_per_page', '');
+		}
+		break;
+		case 'masonry': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_images_per_page', '');
+		}
+		break;
+		case 'mosaic': {
+			bwg_show_hide('tr_album_mosaic', '');
+			bwg_show_hide('tr_album_resizable_mosaic', '');
+			bwg_show_hide('tr_album_mosaic_total_width', '');;
+			bwg_show_hide('for_album_image_title_show_hover_0', 'none');
+			bwg_show_hide('album_image_title_show_hover_0', 'none');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', 'none');
+			bwg_show_hide('tr_album_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_images_per_page', '');
+		}
+		break;
+		case 'slideshow': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_images_per_page', 'none');
+		}
+		case 'image_browser': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_images_per_page', 'none');
+		}
+		break;
+		case 'blog_style': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_images_per_page', '');
+		}
+		break;
+		case 'carousel': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_images_per_page', 'none');
+		}
+		break;
+	}
+}
+
+function show_hide_extended_album_view ( val ) {
+	switch(val) {
+		case 'thumbnail': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_extended_images_per_page', '');
+		}
+		break;
+		case 'masonry': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_extended_images_per_page', '');
+		}
+		break;
+		case 'mosaic': {
+			bwg_show_hide('tr_album_extended_mosaic', '');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', '');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', '');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', 'none');
+			bwg_show_hide('album_extended_image_title_show_hover_0', 'none');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', 'none');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_extended_images_per_page', '');
+		}
+		break;
+		case 'slideshow': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_extended_images_per_page', 'none');
+		}
+		case 'image_browser': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_extended_images_per_page', 'none');
+		}
+		break;
+		case 'blog_style': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_extended_images_per_page', '');
+		}
+		break;
+		case 'carousel': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_extended_images_per_page', 'none');
+		}
+		break;
+	}
+}
+
+function bwg_show_hide(id, display) {
+	jQuery("#" + id).css('display', display);
 }

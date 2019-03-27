@@ -5,14 +5,24 @@ class BWGViewAlbum_compact_preview extends BWGViewSite {
 
   public function display($params = array(), $bwg = 0) {
     /* Gallery view class.*/
-    if ( $params['gallery_view_type'] == 'masonry' ) {
+	$gallery_type = 'Thumbnails';
+	if ( $params['gallery_view_type'] == 'masonry' ) {
       $gallery_type = 'Thumbnails_masonry';
     }
     elseif ( $params['gallery_view_type'] == 'mosaic' ) {
       $gallery_type = 'Thumbnails_mosaic';
     }
-    else {
-      $gallery_type = 'Thumbnails';
+	elseif ( $params['gallery_view_type'] == 'slideshow' ) {
+      $gallery_type = 'Slideshow';
+    }
+	elseif ( $params['gallery_view_type'] == 'image_browser' ) {
+      $gallery_type = 'Image_browser';
+    }
+	elseif ( $params['gallery_view_type'] == 'blog_style' ) {
+      $gallery_type = 'Blog_style';
+    }
+    elseif ( $params['gallery_view_type'] == 'carousel' ) {
+      $gallery_type = 'Carousel';
     }
     require_once BWG()->plugin_dir . '/frontend/views/BWGView' . $gallery_type . '.php';
     $view_class = 'BWGView' . $gallery_type;
@@ -34,15 +44,14 @@ class BWGViewAlbum_compact_preview extends BWGViewSite {
     $theme_row->thumb_gal_title_shadow = $theme_row->album_compact_gal_title_shadow;
     $theme_row->thumb_gal_title_margin = $theme_row->album_compact_gal_title_margin;
     $theme_row->thumb_gal_title_align = $theme_row->album_compact_gal_title_align;
-
     $inline_style = $this->inline_styles($bwg, $theme_row, $params);
     if ( !WDWLibrary::elementor_is_active() ) {
       if ( !$params['ajax'] ) {
         if ( BWG()->options->use_inline_stiles_and_scripts ) {
-        wp_add_inline_style('bwg_frontend', $inline_style);
+			wp_add_inline_style('bwg_frontend', $inline_style);
         }
         else {
-        echo '<style id="bwg-style-' . $bwg . '">' . $inline_style . '</style>';
+			echo '<style id="bwg-style-' . $bwg . '">' . $inline_style . '</style>';
         }
       }
     }
@@ -65,14 +74,15 @@ class BWGViewAlbum_compact_preview extends BWGViewSite {
          class="bwg-thumbnails bwg-container bwg-container-<?php echo $bwg; ?> bwg-album-thumbnails <?php echo $params['album_gallery_div_class']; ?>">
       <?php
       if ( !$params['album_gallery_rows']['page_nav']['total'] ) {
-        echo WDWLibrary::message(__('Album is empty.', BWG()->prefix), 'wd_error');
+        echo WDWLibrary::message(__('No results found.', BWG()->prefix), 'wd_error');
       }
       foreach ( $params['album_gallery_rows']['rows'] as $row ) {
         $href = add_query_arg(array(
           "type_" . $bwg => $row->def_type,
           "album_gallery_id_" . $bwg => (($params['album_gallery_id'] != 0) ? $row->alb_gal_id : $row->id),
+		  "bwg_search_" . $bwg => $search_value = !empty($_REQUEST['bwg_search_' . $bwg]) ? trim( esc_html($_REQUEST['bwg_search_' . $bwg]) ) : '',
         ), $_SERVER['REQUEST_URI']);
-        $title = '<div class="bwg-title1"><div class="bwg-title2">' . ($row->name ? $row->name : '&nbsp;') . '</div></div>';
+        $title = '<div class="bwg-title1"><div class="bwg-title2">' . ($row->name ? htmlspecialchars_decode($row->name, ENT_COMPAT | ENT_QUOTES) : '&nbsp;') . '</div></div>';
         ?>
         <div class="bwg-item">
           <a class="<?php echo $from !== "widget" ? 'bwg-album ' : ''; ?>bwg_album_<?php echo $bwg; ?>"
@@ -113,9 +123,7 @@ class BWGViewAlbum_compact_preview extends BWGViewSite {
     ?>
     <input type="hidden" id="bwg_album_breadcrumb_<?php echo $bwg; ?>" name="bwg_album_breadcrumb_<?php echo $bwg; ?>" value='<?php echo $breadcrumb; ?>' />
     <?php
-
     $content = ob_get_clean();
-
     if ( $params['ajax'] ) {/* Ajax response after ajax call for filters and pagination.*/
       if ( $params['album_view_type'] != 'gallery' ) {
         parent::ajax_content($params, $bwg, $content);
@@ -364,8 +372,9 @@ class BWGViewAlbum_compact_preview extends BWGViewSite {
 
       $theme_row->thumb_title_shadow = $theme_row->album_compact_title_shadow;
       $theme_row->mosaic_thumb_title_shadow = $theme_row->album_compact_title_shadow;
-
-      echo $this->gallery_view->inline_styles($bwg, $theme_row, $params);
+      if ( !in_array( $params['gallery_type'], array('slideshow', 'image_browser', 'blog_style', 'carousel') ) ) {
+		echo $this->gallery_view->inline_styles($bwg, $theme_row, $params);
+	  }
     }
 
     return ob_get_clean();

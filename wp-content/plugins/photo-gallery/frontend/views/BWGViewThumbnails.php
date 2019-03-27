@@ -4,7 +4,6 @@ class BWGViewThumbnails extends BWGViewSite {
     $theme_row = $params['theme_row'];
     $image_rows = $params['image_rows'];
     $image_rows = $image_rows['images'];
-
     $inline_style = $this->inline_styles($bwg, $theme_row, $params);
     if ( !WDWLibrary::elementor_is_active() ) {
       if ( !$ajax ) {
@@ -40,7 +39,7 @@ class BWGViewThumbnails extends BWGViewSite {
         $class = '';
         $data_image_id = '';
         $href = '';
-        $title = '<div class="bwg-title1"><div class="bwg-title2">' . ($image_row->alt ? $image_row->alt : '&nbsp;') . '</div></div>';
+        $title = '<div class="bwg-title1"><div class="bwg-title2">' . ($image_row->alt ? htmlspecialchars_decode($image_row->alt, ENT_COMPAT | ENT_QUOTES) : '&nbsp;') . '</div></div>';
         $play_icon = '<div class="bwg-play-icon1"><i title="' . __('Play', BWG()->prefix) . '" class="bwg-icon-play bwg-title2 bwg-play-icon2"></i></div>';
         $ecommerce_icon = '<div class="bwg-ecommerce1"><div class="bwg-ecommerce2">';
         if ( $image_row->pricelist_id ) {

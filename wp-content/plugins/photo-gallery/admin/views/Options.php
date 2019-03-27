@@ -301,12 +301,12 @@ class OptionsView_bwg extends AdminView_bwg {
                   </div>
                   <p class="description"><?php _e('Generate or edit a shortcode.', BWG()->prefix); ?></p>
                 </div>
-				<div class="wd-group">
-					<label class="wd-label"><?php _e('Developer mode', BWG()->prefix); ?></label>
-					<input type="radio" name="developer_mode" id="developer_mode_1" value="1" <?php if ($row->developer_mode) echo 'checked="checked"'; ?> /><label for="developer_mode_1" class="wd-radio-label"><?php _e('Yes', BWG()->prefix); ?></label>
-                    <input type="radio" name="developer_mode" id="developer_mode_0" value="0" <?php if (!$row->developer_mode) echo 'checked="checked"'; ?> /><label for="developer_mode_0" class="wd-radio-label"><?php _e('No', BWG()->prefix); ?></label>
-					<p class="description"><?php _e('', BWG()->prefix); ?></p>
-				</div>
+                <div class="wd-group">
+                  <label class="wd-label"><?php _e('Developer mode', BWG()->prefix); ?></label>
+                  <input type="radio" name="developer_mode" id="developer_mode_1" value="1" <?php if ($row->developer_mode) echo 'checked="checked"'; ?> /><label for="developer_mode_1" class="wd-radio-label"><?php _e('Yes', BWG()->prefix); ?></label>
+                  <input type="radio" name="developer_mode" id="developer_mode_0" value="0" <?php if (!$row->developer_mode) echo 'checked="checked"'; ?> /><label for="developer_mode_0" class="wd-radio-label"><?php _e('No', BWG()->prefix); ?></label>
+                  <p class="description"><?php _e('Do not use minified JS and CSS files. Enable this option if You need to debug JS or CSS issues.', BWG()->prefix); ?></p>
+                </div>
               </div>
               <?php
               if ( !BWG()->is_demo ) {
@@ -603,7 +603,7 @@ class OptionsView_bwg extends AdminView_bwg {
                         <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="album_role" id="album_role_1" value="1" <?php if ($row->album_role) echo 'checked="checked"'; ?> /><label for="album_role_1" class="wd-radio-label"><?php _e('Yes', BWG()->prefix); ?></label>
                         <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="album_role" id="album_role_0" value="0" <?php if (!$row->album_role) echo 'checked="checked"'; ?> /><label for="album_role_0" class="wd-radio-label"><?php _e('No', BWG()->prefix); ?></label>
                       </div>
-                      <p class="description"><?php _e('Enabling this option will restrict authors from modifying galleries created by other users.', BWG()->prefix); ?></p>
+                      <p class="description"><?php _e('Enabling this option will restrict authors from modifying galleries groups created by other users.', BWG()->prefix); ?></p>
                       <?php if ( !BWG()->is_pro ) { ?><p class="description spider_free_version"><?php echo BWG()->free_msg; ?></p><?php } ?>
                     </div>
                   </div>
@@ -614,7 +614,7 @@ class OptionsView_bwg extends AdminView_bwg {
                         <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="image_role" id="image_role_1" value="1" <?php if ($row->image_role) echo 'checked="checked"'; ?> /><label for="image_role_1" class="wd-radio-label"><?php _e('Yes', BWG()->prefix); ?></label>
                         <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="image_role" id="image_role_0" value="0" <?php if (!$row->image_role) echo 'checked="checked"'; ?> /><label for="image_role_0" class="wd-radio-label"><?php _e('No', BWG()->prefix); ?></label>
                       </div>
-                      <p class="description"><?php _e('Enable this setting to restrict authors from modifying galleries added by other users.', BWG()->prefix); ?></p>
+                      <p class="description"><?php _e('Enable this setting to restrict authors from modifying images added by other users.', BWG()->prefix); ?></p>
                       <?php if ( !BWG()->is_pro ) { ?><p class="description spider_free_version"><?php echo BWG()->free_msg; ?></p><?php } ?>
                     </div>
                   </div>
@@ -996,21 +996,7 @@ class OptionsView_bwg extends AdminView_bwg {
         bwg_enable_disable(<?php echo $row->masonry_image_enable_page == '2' ? "'', 'tr_masonry_load_more_image_count', 'masonry_image_enable_page_loadmore'" : "'none', 'tr_masonry_load_more_image_count', 'masonry_image_enable_page_" . ($row->masonry_image_enable_page == '0' ? 'no' : ($row->masonry_image_enable_page == '1' ? 'yes' : 'scroll_load')) . "'"; ?>);
         bwg_enable_disable(<?php echo $row->mosaic_image_enable_page == '2' ? "'', 'tr_mosaic_load_more_image_count', 'mosaic_image_enable_page_loadmore'" : "'none', 'tr_mosaic_load_more_image_count', 'mosaic_image_enable_page_" . ($row->mosaic_image_enable_page == '0' ? 'no' : ($row->mosaic_image_enable_page == '1' ? 'yes' : 'scroll_load')) . "'"; ?>);
         bwg_enable_disable(<?php echo $row->blog_style_enable_page == '2' ? "'', 'tr_blog_style_load_more_image_count', 'blog_style_enable_page_2'" : "'none', 'tr_blog_style_load_more_image_count', 'blog_style_enable_page_" . $row->blog_style_enable_page . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_view_type == 'mosaic' ? "'', 'tr_album_mosaic', 'album_view_type_2'" : "'none', 'tr_album_mosaic', 'album_view_type_" . $row->album_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_view_type == 'mosaic' ? "'', 'tr_album_resizable_mosaic', 'album_view_type_2'" : "'none', 'tr_album_resizable_mosaic', 'album_view_type_" . $row->album_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_view_type == 'mosaic' ? "'', 'tr_album_mosaic_total_width', 'album_view_type_2'" : "'none', 'tr_album_mosaic_total_width', 'album_view_type_" . $row->album_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_view_type == 'mosaic' ? "'none', 'for_album_image_title_show_hover_0', 'album_view_type_2'" : "'', 'for_album_image_title_show_hover_0', 'album_view_type_" . $row->album_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_view_type == 'mosaic' ? "'none', 'album_image_title_show_hover_0', 'album_view_type_2'" : "'', 'album_image_title_show_hover_0', 'album_view_type_" . $row->album_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_view_type == 'mosaic' ? "'none', 'for_album_ecommerce_icon_show_hover_0', 'album_view_type_2'" : "'', 'for_album_ecommerce_icon_show_hover_0', 'album_view_type_" . $row->album_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_view_type == 'mosaic' ? "'none', 'album_ecommerce_icon_show_hover_0', 'album_view_type_2'" : "'', 'album_ecommerce_icon_show_hover_0', 'album_view_type_" . $row->album_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_extended_view_type == 'mosaic' ? "'', 'tr_album_extended_mosaic', 'album_extended_view_type_2'" : "'none', 'tr_album_extended_mosaic', 'album_extended_view_type_" . $row->album_extended_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_extended_view_type == 'mosaic' ? "'', 'tr_album_extended_resizable_mosaic', 'album_extended_view_type_2'" : "'none', 'tr_album_extended_resizable_mosaic', 'album_extended_view_type_" . $row->album_extended_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_extended_view_type == 'mosaic' ? "'', 'tr_album_extended_mosaic_total_width', 'album_extended_view_type_2'" : "'none', 'tr_album_extended_mosaic_total_width', 'album_extended_view_type_" . $row->album_extended_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_extended_view_type == 'mosaic' ? "'none', 'for_album_extended_image_title_show_hover_0', 'album_extended_view_type_2'" : "'', 'for_album_extended_image_title_show_hover_0', 'album_extended_view_type_" . $row->album_extended_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_extended_view_type == 'mosaic' ? "'none', 'album_extended_image_title_show_hover_0', 'album_extended_view_type_2'" : "'', 'album_extended_image_title_show_hover_0', 'album_extended_view_type_" . $row->album_extended_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_extended_view_type == 'mosaic' ? "'none', 'for_album_extended_ecommerce_icon_show_hover_0', 'album_extended_view_type_2'" : "'', 'for_album_extended_ecommerce_icon_show_hover_0', 'album_extended_view_type_" . $row->album_extended_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->album_extended_view_type == 'mosaic' ? "'none', 'album_extended_ecommerce_icon_show_hover_0', 'album_extended_view_type_2'" : "'', 'album_extended_ecommerce_icon_show_hover_0', 'album_extended_view_type_" . $row->album_extended_view_type . "'"; ?>);
-        bwg_enable_disable(<?php echo $row->masonry == 'horizontal' ? "'none', 'bwg-vertical-block-masonry', 'masonry_1'" : "'', 'bwg-vertical-block-masonry', 'masonry_0'"; ?>);
+		bwg_enable_disable(<?php echo $row->masonry == 'horizontal' ? "'none', 'bwg-vertical-block-masonry', 'masonry_1'" : "'', 'bwg-vertical-block-masonry', 'masonry_0'"; ?>);
         preview_watermark();
         preview_built_in_watermark();
         bwg_show_hide_roles();
@@ -1115,26 +1101,26 @@ class OptionsView_bwg extends AdminView_bwg {
         <div class="wd-box-content wd-width-33">
           <div class="wd-box-content wd-width-100">
             <div class="wd-group">
-              <label class="wd-label" for="sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-              <select name="sort_by" id="sort_by">
-                <option value="order" <?php if ($row->sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
-                <option value="alt" <?php if ($row->sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
-                <option value="date" <?php if ($row->sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
-                <option value="filename" <?php if ($row->sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
-                <option value="size" <?php if ($row->sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
-                <option value="filetype" <?php if ($row->sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
-                <option value="resolution" <?php if ($row->sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
-                <option value="random" <?php if ($row->sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
-              </select>
-              <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-            </div>
-          </div>
-          <div class="wd-box-content wd-width-100">
-            <div class="wd-group">
-              <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-              <input type="radio" name="order_by" id="order_by_1" value="asc" <?php if ($row->order_by == 'asc') echo 'checked="checked"'; ?> /><label for="order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-              <input type="radio" name="order_by" id="order_by_0" value="desc" <?php if ($row->order_by == 'desc') echo 'checked="checked"'; ?> /><label for="order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-              <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+				<div class="wd-width-65">
+					<label class="wd-label" for="sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
+					<select name="sort_by" id="sort_by">
+						<option value="order" <?php if ($row->sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+						<option value="alt" <?php if ($row->sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+						<option value="date" <?php if ($row->sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
+						<option value="filename" <?php if ($row->sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
+						<option value="size" <?php if ($row->sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
+						<option value="filetype" <?php if ($row->sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
+						<option value="resolution" <?php if ($row->sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
+						<option value="random" <?php if ($row->sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+					</select>
+				</div>
+				<div class="wd-width-30">
+					<select name="order_by" id="order_by">
+						<option value="asc" <?php if ($row->order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+				</div>
+              <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
             </div>
           </div>
           <div class="wd-box-content wd-width-100">
@@ -1334,8 +1320,9 @@ class OptionsView_bwg extends AdminView_bwg {
           <div class="wd-box-content wd-width-100">
             <div class="wd-group">
               <label class="wd-label" for="masonry_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-              <select name="masonry_sort_by" id="masonry_sort_by">
-                <option value="order" <?php if ($row->masonry_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
+              <div class="wd-width-65">
+			  <select name="masonry_sort_by" id="masonry_sort_by">
+                <option value="order" <?php if ($row->masonry_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
                 <option value="alt" <?php if ($row->masonry_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
                 <option value="date" <?php if ($row->masonry_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
                 <option value="filename" <?php if ($row->masonry_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
@@ -1344,15 +1331,14 @@ class OptionsView_bwg extends AdminView_bwg {
                 <option value="resolution" <?php if ($row->masonry_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
                 <option value="random" <?php if ($row->masonry_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
               </select>
-              <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-            </div>
-          </div>
-          <div class="wd-box-content wd-width-100">
-            <div class="wd-group">
-              <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-              <input type="radio" name="masonry_order_by" id="masonry_order_by_1" value="asc" <?php if ($row->masonry_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="masonry_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-              <input type="radio" name="masonry_order_by" id="masonry_order_by_0" value="desc" <?php if ($row->masonry_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="masonry_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-              <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+			  </div>
+			  <div class="wd-width-30">
+					<select name="masonry_order_by" id="masonry_order_by">
+						<option value="asc" <?php if ($row->masonry_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->masonry_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+			  </div>
+              <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
             </div>
           </div>
           <div class="wd-box-content wd-width-100">
@@ -1570,8 +1556,9 @@ class OptionsView_bwg extends AdminView_bwg {
           <div class="wd-box-content wd-width-100">
             <div class="wd-group">
               <label class="wd-label" for="mosaic_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
+			  <div class="wd-width-65">
               <select name="mosaic_sort_by" id="mosaic_sort_by">
-                <option value="order" <?php if ($row->mosaic_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
+                <option value="order" <?php if ($row->mosaic_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
                 <option value="alt" <?php if ($row->mosaic_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
                 <option value="date" <?php if ($row->mosaic_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
                 <option value="filename" <?php if ($row->mosaic_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
@@ -1580,15 +1567,14 @@ class OptionsView_bwg extends AdminView_bwg {
                 <option value="resolution" <?php if ($row->mosaic_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
                 <option value="random" <?php if ($row->mosaic_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
               </select>
-              <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-            </div>
-          </div>
-          <div class="wd-box-content wd-width-100">
-            <div class="wd-group">
-              <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-              <input type="radio" name="mosaic_order_by" id="mosaic_order_by_1" value="asc" <?php if ($row->mosaic_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="mosaic_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-              <input type="radio" name="mosaic_order_by" id="mosaic_order_by_0" value="desc" <?php if ($row->mosaic_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="mosaic_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-              <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+			  </div>
+			  <div class="wd-width-30">
+					<select name="mosaic_order_by" id="mosaic_order_by">
+						<option value="asc" <?php if ($row->mosaic_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->mosaic_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+			  </div>
+              <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
             </div>
           </div>
           <div class="wd-box-content wd-width-100">
@@ -1767,25 +1753,25 @@ class OptionsView_bwg extends AdminView_bwg {
           <div class="wd-box-content wd-width-100">
             <div class="wd-group">
               <label class="wd-label" for="slideshow_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-              <select name="slideshow_sort_by" id="slideshow_sort_by">
-                <option value="order" <?php if ($row->slideshow_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
-                <option value="alt" <?php if ($row->slideshow_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
-                <option value="date" <?php if ($row->slideshow_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
-                <option value="filename" <?php if ($row->slideshow_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
-                <option value="size" <?php if ($row->slideshow_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
-                <option value="filetype" <?php if ($row->slideshow_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
-                <option value="resolution" <?php if ($row->slideshow_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
-                <option value="random" <?php if ($row->slideshow_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
-              </select>
-              <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-            </div>
-          </div>
-          <div class="wd-box-content wd-width-100">
-            <div class="wd-group">
-              <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-              <input type="radio" name="slideshow_order_by" id="slideshow_order_by_1" value="asc" <?php if ($row->slideshow_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="slideshow_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-              <input type="radio" name="slideshow_order_by" id="slideshow_order_by_0" value="desc" <?php if ($row->slideshow_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="slideshow_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-              <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+              <div class="wd-width-65">
+				<select name="slideshow_sort_by" id="slideshow_sort_by">
+					<option value="order" <?php if ($row->slideshow_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+					<option value="alt" <?php if ($row->slideshow_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+					<option value="date" <?php if ($row->slideshow_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
+					<option value="filename" <?php if ($row->slideshow_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
+					<option value="size" <?php if ($row->slideshow_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
+					<option value="filetype" <?php if ($row->slideshow_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
+					<option value="resolution" <?php if ($row->slideshow_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
+					<option value="random" <?php if ($row->slideshow_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+				</select>
+			  </div>
+              <div class="wd-width-30">
+					<select name="slideshow_order_by" id="slideshow_order_by">
+						<option value="asc" <?php if ($row->slideshow_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->slideshow_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+			  </div>
+              <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
             </div>
           </div>
           <div class="wd-box-content wd-width-100">
@@ -2007,8 +1993,9 @@ class OptionsView_bwg extends AdminView_bwg {
           <div class="wd-box-content wd-width-100">
             <div class="wd-group">
               <label class="wd-label" for="image_browser_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-              <select name="image_browser_sort_by" id="image_browser_sort_by">
-                <option value="order" <?php if ($row->image_browser_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
+              <div class="wd-width-65">
+			  <select name="image_browser_sort_by" id="image_browser_sort_by">
+                <option value="order" <?php if ($row->image_browser_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
                 <option value="alt" <?php if ($row->image_browser_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
                 <option value="date" <?php if ($row->image_browser_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
                 <option value="filename" <?php if ($row->image_browser_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
@@ -2017,15 +2004,14 @@ class OptionsView_bwg extends AdminView_bwg {
                 <option value="resolution" <?php if ($row->image_browser_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
                 <option value="random" <?php if ($row->image_browser_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
               </select>
-              <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-            </div>
-          </div>
-          <div class="wd-box-content wd-width-100">
-            <div class="wd-group">
-              <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-              <input type="radio" name="image_browser_order_by" id="image_browser_order_by_1" value="asc" <?php if ($row->image_browser_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="image_browser_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-              <input type="radio" name="image_browser_order_by" id="image_browser_order_by_0" value="desc" <?php if ($row->image_browser_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="image_browser_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-              <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+			  </div>
+              <div class="wd-width-30">
+					<select name="image_browser_order_by" id="image_browser_order_by">
+						<option value="asc" <?php if ($row->image_browser_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->image_browser_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+			  </div>
+              <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
             </div>
           </div>
           <div class="wd-box-content wd-width-100">
@@ -2166,25 +2152,25 @@ class OptionsView_bwg extends AdminView_bwg {
           <div class="wd-box-content wd-width-100">
             <div class="wd-group">
               <label class="wd-label" for="blog_style_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-              <select name="blog_style_sort_by" id="blog_style_sort_by">
-                <option value="order" <?php if ($row->blog_style_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
-                <option value="alt" <?php if ($row->blog_style_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
-                <option value="date" <?php if ($row->blog_style_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
-                <option value="filename" <?php if ($row->blog_style_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
-                <option value="size" <?php if ($row->blog_style_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
-                <option value="filetype" <?php if ($row->blog_style_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
-                <option value="resolution" <?php if ($row->blog_style_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
-                <option value="random" <?php if ($row->blog_style_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
-              </select>
-              <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-            </div>
-          </div>
-          <div class="wd-box-content wd-width-100">
-            <div class="wd-group">
-              <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-              <input type="radio" name="blog_style_order_by" id="blog_style_order_by_1" value="asc" <?php if ($row->blog_style_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="blog_style_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-              <input type="radio" name="blog_style_order_by" id="blog_style_order_by_0" value="desc" <?php if ($row->blog_style_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="blog_style_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-              <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+			  <div class="wd-width-65">
+				<select name="blog_style_sort_by" id="blog_style_sort_by">
+					<option value="order" <?php if ($row->blog_style_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+					<option value="alt" <?php if ($row->blog_style_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+					<option value="date" <?php if ($row->blog_style_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
+					<option value="filename" <?php if ($row->blog_style_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
+					<option value="size" <?php if ($row->blog_style_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
+					<option value="filetype" <?php if ($row->blog_style_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
+					<option value="resolution" <?php if ($row->blog_style_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
+					<option value="random" <?php if ($row->blog_style_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+				</select>
+			  </div>
+              <div class="wd-width-30">
+					<select name="blog_style_order_by" id="blog_style_order_by">
+						<option value="asc" <?php if ($row->blog_style_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->blog_style_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+			  </div>
+              <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
             </div>
           </div>
           <div class="wd-box-content wd-width-100">
@@ -2343,25 +2329,25 @@ class OptionsView_bwg extends AdminView_bwg {
               <div class="wd-box-content wd-width-100">
                 <div class="wd-group">
                   <label class="wd-label" for="carousel_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-                  <select name="carousel_sort_by" id="carousel_sort_by">
-                    <option value="order" <?php if ($row->carousel_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
-                    <option value="alt" <?php if ($row->carousel_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
-                    <option value="date" <?php if ($row->carousel_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
-                    <option value="filename" <?php if ($row->carousel_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
-                    <option value="size" <?php if ($row->carousel_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
-                    <option value="filetype" <?php if ($row->carousel_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
-                    <option value="resolution" <?php if ($row->carousel_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
-                    <option value="random" <?php if ($row->carousel_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
-                  </select>
-                  <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-                </div>
-              </div>
-              <div class="wd-box-content wd-width-100">
-                <div class="wd-group">
-                  <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-                  <input type="radio" name="carousel_order_by" id="carousel_order_by_1" value="asc" <?php if ($row->carousel_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="carousel_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-                  <input type="radio" name="carousel_order_by" id="carousel_order_by_0" value="desc" <?php if ($row->carousel_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="carousel_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-                  <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+				  <div class="wd-width-65">
+					<select name="carousel_sort_by" id="carousel_sort_by">
+						<option value="order" <?php if ($row->carousel_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+						<option value="alt" <?php if ($row->carousel_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+						<option value="date" <?php if ($row->carousel_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
+						<option value="filename" <?php if ($row->carousel_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
+						<option value="size" <?php if ($row->carousel_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
+						<option value="filetype" <?php if ($row->carousel_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
+						<option value="resolution" <?php if ($row->carousel_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
+						<option value="random" <?php if ($row->carousel_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+					</select>
+				  </div>
+                  <div class="wd-width-30">
+					<select name="carousel_order_by" id="carousel_order_by">
+						<option value="asc" <?php if ($row->carousel_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->carousel_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+				  </div>
+				  <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
                 </div>
               </div>
               <div class="wd-box-content wd-width-100">
@@ -2485,7 +2471,7 @@ class OptionsView_bwg extends AdminView_bwg {
               <p class="description"><?php _e('Set the maximum number of image columns in galleries. Note, that the parent container needs to be large enough to display all columns.', BWG()->prefix); ?></p>
             </div>
           </div>
-          <div class="wd-box-content wd-width-100">
+          <div class="wd-box-content wd-width-100" id="tr_album_thumbnail_dimensions">
             <div class="wd-group">
               <label class="wd-label" for="album_image_thumb_width"><?php _e('Thumbnail dimensions', BWG()->prefix); ?></label>
               <div class="bwg-flex">
@@ -2495,7 +2481,7 @@ class OptionsView_bwg extends AdminView_bwg {
               <p class="description"><?php _e('The default dimensions of thumbnails which will display on published galleries.', BWG()->prefix); ?></p>
             </div>
           </div>
-          <div class="wd-box-content wd-width-100">
+          <div class="wd-box-content wd-width-100" id="tr_album_pagination">
             <div class="wd-group">
               <label class="wd-label"><?php _e('Pagination', BWG()->prefix); ?></label>
               <div class="bwg-flex">
@@ -2531,27 +2517,44 @@ class OptionsView_bwg extends AdminView_bwg {
         </div>
         <div class="wd-box-content wd-width-33">
           <div class="wd-box-content wd-width-100">
+			<div class="wd-group">
+				<label class="wd-label" for="compact_album_sort_by"><?php _e('Order Gallery group by', BWG()->prefix); ?></label>
+				<div class="wd-width-65">
+					<select name="compact_album_sort_by" id="compact_album_sort_by">
+						<option value="order" <?php if ($row->compact_album_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+						<option value="name" <?php if ($row->compact_album_sort_by == 'name') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+						<option value="random" <?php if ($row->compact_album_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+					</select>
+				</div>
+				<div class="wd-width-30">
+					<select name="compact_album_order_by" id="compact_album_order_by">
+						<option value="asc" <?php if ($row->compact_album_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->compact_album_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+				</div>
+				<p class="description"><?php _e("Select the parameter and order direction to sort the gallery group images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
+			</div>
             <div class="wd-group">
-              <label class="wd-label" for="album_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-              <select name="album_sort_by" id="album_sort_by">
-                <option value="order" <?php if ($row->album_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
-                <option value="alt" <?php if ($row->album_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
-                <option value="date" <?php if ($row->album_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
-                <option value="filename" <?php if ($row->album_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
-                <option value="size" <?php if ($row->album_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
-                <option value="filetype" <?php if ($row->album_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
-                <option value="resolution" <?php if ($row->album_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
-                <option value="random" <?php if ($row->album_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
-              </select>
-              <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-            </div>
-          </div>
-          <div class="wd-box-content wd-width-100">
-            <div class="wd-group">
-              <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-              <input type="radio" name="album_order_by" id="album_order_by_1" value="asc" <?php if ($row->album_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="album_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-              <input type="radio" name="album_order_by" id="album_order_by_0" value="desc" <?php if ($row->album_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="album_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-              <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+				<label class="wd-label" for="album_sort_by"><?php _e('Order images by', BWG()->prefix); ?></label>
+				<div class="wd-width-65">
+					<select name="album_sort_by" id="album_sort_by">
+						<option value="order" <?php if ($row->album_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+						<option value="alt" <?php if ($row->album_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+						<option value="date" <?php if ($row->album_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
+						<option value="filename" <?php if ($row->album_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
+						<option value="size" <?php if ($row->album_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
+						<option value="filetype" <?php if ($row->album_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
+						<option value="resolution" <?php if ($row->album_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
+						<option value="random" <?php if ($row->album_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+					</select>
+				</div>
+				<div class="wd-width-30">
+					<select name="album_order_by" id="album_order_by">
+						<option value="asc" <?php if ($row->album_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->album_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+				</div>
+              <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
             </div>
           </div>
           <div class="wd-box-content wd-width-100">
@@ -2635,13 +2638,17 @@ class OptionsView_bwg extends AdminView_bwg {
           </div>
           <div class="wd-box-content wd-width-100">
             <div class="wd-group">
-              <label class="wd-label"><?php _e('Gallery view type', BWG()->prefix); ?></label>
-              <div class="bwg-flex">
-                <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="album_view_type" id="album_view_type_1" value="thumbnail" <?php if ($row->album_view_type == "thumbnail") echo 'checked="checked"'; ?> onClick="bwg_enable_disable('none', 'tr_album_mosaic', 'album_view_type_1'); bwg_enable_disable('none', 'tr_album_resizable_mosaic', 'album_view_type_1'); bwg_enable_disable('none', 'tr_album_mosaic_total_width', 'album_view_type_1');bwg_enable_disable('', 'for_album_image_title_show_hover_0', 'album_view_type_1');bwg_enable_disable('', 'album_image_title_show_hover_0', 'album_view_type_1');bwg_enable_disable('', 'for_album_ecommerce_icon_show_hover_0', 'album_view_type_1');" /><label for="album_view_type_1" class="wd-radio-label"><?php _e('Thumbnail', BWG()->prefix); ?></label>
-                <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="album_view_type" id="album_view_type_0" value="masonry" <?php if ($row->album_view_type == "masonry") echo 'checked="checked"'; ?> onClick="bwg_enable_disable('none', 'tr_album_mosaic', 'album_view_type_0'); bwg_enable_disable('none', 'tr_album_resizable_mosaic', 'album_view_type_0'); bwg_enable_disable('none', 'tr_album_mosaic_total_width', 'album_view_type_0');bwg_enable_disable('', 'for_album_image_title_show_hover_0', 'album_view_type_0');bwg_enable_disable('', 'album_image_title_show_hover_0', 'album_view_type_0');bwg_enable_disable('', 'for_album_ecommerce_icon_show_hover_0', 'album_view_type_0');" /><label for="album_view_type_0" class="wd-radio-label"><?php _e('Masonry', BWG()->prefix); ?></label>
-                <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="album_view_type" id="album_view_type_2" value="mosaic" <?php if ($row->album_view_type == "mosaic") echo 'checked="checked"'; ?> onClick="bwg_enable_disable('', 'tr_album_mosaic', 'album_view_type_2'); bwg_enable_disable('', 'tr_album_resizable_mosaic', 'album_view_type_2'); bwg_enable_disable('', 'tr_album_mosaic_total_width', 'album_view_type_2');bwg_enable_disable('none', 'for_album_image_title_show_hover_0', 'album_view_type_2');bwg_enable_disable('none', 'album_image_title_show_hover_0', 'album_view_type_2');bwg_enable_disable('none', 'for_album_ecommerce_icon_show_hover_0', 'album_view_type_2');" /><label for="album_view_type_2" class="wd-radio-label"><?php _e('Mosaic', BWG()->prefix); ?></label>
-              </div>
-              <p class="description"><?php _e('Choose the display type for gallery groups, Thumbnails, Masonry or Mosaic.', BWG()->prefix); ?></p>
+              <label class="wd-label" for="album_view_type"><?php _e('Gallery view type', BWG()->prefix); ?></label>
+              <select name="album_view_type" id="album_view_type" <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?>>
+                <option value="thumbnail" <?php if ($row->album_view_type == 'thumbnail') echo 'selected="selected"'; ?>><?php _e('Thumbnail', BWG()->prefix); ?></option>
+                <option value="masonry" <?php if ($row->album_view_type == 'masonry') echo 'selected="selected"'; ?>><?php _e('Masonry', BWG()->prefix); ?></option>
+                <option value="mosaic" <?php if ($row->album_view_type == 'mosaic') echo 'selected="selected"'; ?>><?php _e('Mosaic', BWG()->prefix); ?></option>
+                <option value="slideshow" <?php if ($row->album_view_type == 'slideshow') echo 'selected="selected"'; ?>><?php _e('Slideshow', BWG()->prefix); ?></option>
+                <option value="image_browser" <?php if ($row->album_view_type == 'image_browser') echo 'selected="selected"'; ?>><?php _e('Image Browser', BWG()->prefix); ?></option>
+                <option value="blog_style" <?php if ($row->album_view_type == 'blog_style') echo 'selected="selected"'; ?>><?php _e('Blog Style', BWG()->prefix); ?></option>
+                <option value="carousel" <?php if ($row->album_view_type == 'carousel') echo 'selected="selected"'; ?>><?php _e('Carousel', BWG()->prefix); ?></option>
+              </select>
+              <p class="description"><?php _e('Choose the display type for gallery groups, Thumbnails, Masonry, Mosaic, Slideshow, Image browser, Blog style or Carousel.', BWG()->prefix); ?></p>
               <?php if ( !BWG()->is_pro ) { ?><p class="description spider_free_version"><?php echo BWG()->free_msg; ?></p><?php } ?>
             </div>
           </div>
@@ -2810,27 +2817,44 @@ class OptionsView_bwg extends AdminView_bwg {
         </div>
         <div class="wd-box-content wd-width-33">
           <div class="wd-box-content wd-width-100">
+			<div class="wd-group">
+				<label class="wd-label" for="masonry_album_sort_by"><?php _e('Order Gallery group by', BWG()->prefix); ?></label>
+				<div class="wd-width-65">
+					<select name="masonry_album_sort_by" id="masonry_album_sort_by">
+						<option value="order" <?php if ($row->masonry_album_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+						<option value="name" <?php if ($row->masonry_album_sort_by == 'name') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+						<option value="random" <?php if ($row->masonry_album_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+					</select>
+				</div>
+				<div class="wd-width-30">
+					<select name="masonry_album_order_by" id="masonry_album_order_by">
+						<option value="asc" <?php if ($row->masonry_album_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->masonry_album_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+				</div>
+				<p class="description"><?php _e("Select the parameter and order direction to sort the gallery group images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
+			</div>
             <div class="wd-group">
-              <label class="wd-label" for="album_masonry_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-              <select name="album_masonry_sort_by" id="album_masonry_sort_by">
-                <option value="order" <?php if ($row->album_masonry_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
-                <option value="alt" <?php if ($row->album_masonry_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
-                <option value="date" <?php if ($row->album_masonry_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
-                <option value="filename" <?php if ($row->album_masonry_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
-                <option value="size" <?php if ($row->album_masonry_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
-                <option value="filetype" <?php if ($row->album_masonry_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
-                <option value="resolution" <?php if ($row->album_masonry_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
-                <option value="random" <?php if ($row->album_masonry_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
-              </select>
-              <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-            </div>
-          </div>
-          <div class="wd-box-content wd-width-100">
-            <div class="wd-group">
-              <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-              <input type="radio" name="album_masonry_order_by" id="album_masonry_order_by_1" value="asc" <?php if ($row->album_masonry_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="album_masonry_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-              <input type="radio" name="album_masonry_order_by" id="album_masonry_order_by_0" value="desc" <?php if ($row->album_masonry_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="album_masonry_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-              <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+              <label class="wd-label" for="album_masonry_sort_by"><?php _e('Order images by', BWG()->prefix); ?></label>
+				<div class="wd-width-65">
+				  <select name="album_masonry_sort_by" id="album_masonry_sort_by">
+					<option value="order" <?php if ($row->album_masonry_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+					<option value="alt" <?php if ($row->album_masonry_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+					<option value="date" <?php if ($row->album_masonry_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
+					<option value="filename" <?php if ($row->album_masonry_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
+					<option value="size" <?php if ($row->album_masonry_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
+					<option value="filetype" <?php if ($row->album_masonry_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
+					<option value="resolution" <?php if ($row->album_masonry_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
+					<option value="random" <?php if ($row->album_masonry_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+				  </select>
+				</div>
+				<div class="wd-width-30">
+					<select name="album_masonry_order_by" id="album_masonry_order_by">
+						<option value="asc" <?php if ($row->album_masonry_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->album_masonry_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+				</div>
+              <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
             </div>
           </div>
           <div class="wd-box-content wd-width-100">
@@ -2987,7 +3011,7 @@ class OptionsView_bwg extends AdminView_bwg {
                 <p class="description"><?php _e('Set the maximum number of image columns in galleries. Note, that the parent container needs to be large enough to display all columns.', BWG()->prefix); ?></p>
               </div>
             </div>
-            <div class="wd-box-content wd-width-100">
+            <div class="wd-box-content wd-width-100" id="tr_album_extended_thumbnail_dimensions">
               <div class="wd-group">
                 <label class="wd-label" for="album_extended_image_thumb_width"><?php _e('Thumbnail dimensions', BWG()->prefix); ?></label>
                 <div class="bwg-flex">
@@ -3033,27 +3057,44 @@ class OptionsView_bwg extends AdminView_bwg {
           </div>
           <div class="wd-box-content wd-width-33">
             <div class="wd-box-content wd-width-100">
+				<div class="wd-group">
+					<label class="wd-label" for="extended_album_sort_by"><?php _e('Order Gallery group by', BWG()->prefix); ?></label>
+					<div class="wd-width-65">
+						<select name="extended_album_sort_by" id="extended_album_sort_by">
+							<option value="order" <?php if ($row->extended_album_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+							<option value="name" <?php if ($row->extended_album_sort_by == 'name') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+							<option value="random" <?php if ($row->extended_album_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+						</select>
+					</div>
+					<div class="wd-width-30">
+						<select name="extended_album_order_by" id="extended_album_order_by">
+							<option value="asc" <?php if ($row->extended_album_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+							<option value="desc" <?php if ($row->extended_album_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+						</select>
+					</div>
+					<p class="description"><?php _e("Select the parameter and order direction to sort the gallery group images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
+				</div>
               <div class="wd-group">
-                <label class="wd-label" for="album_extended_sort_by"><?php _e('Order by', BWG()->prefix); ?></label>
-                <select name="album_extended_sort_by" id="album_extended_sort_by">
-                  <option value="order" <?php if ($row->album_extended_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Order', BWG()->prefix); ?></option>
-                  <option value="alt" <?php if ($row->album_extended_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
-                  <option value="date" <?php if ($row->album_extended_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
-                  <option value="filename" <?php if ($row->album_extended_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
-                  <option value="size" <?php if ($row->album_extended_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
-                  <option value="filetype" <?php if ($row->album_extended_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
-                  <option value="resolution" <?php if ($row->album_extended_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
-                  <option value="random" <?php if ($row->album_extended_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
-                </select>
-                <p class="description"><?php _e("Select the parameter based on which the gallery images will sorted, e.g. Title.", BWG()->prefix); ?></p>
-              </div>
-            </div>
-            <div class="wd-box-content wd-width-100">
-              <div class="wd-group">
-                <label class="wd-label"><?php _e('Order direction', BWG()->prefix); ?></label>
-                <input type="radio" name="album_extended_order_by" id="album_extended_order_by_1" value="asc" <?php if ($row->album_extended_order_by == 'asc') echo 'checked="checked"'; ?> /><label for="album_extended_order_by_1" class="wd-radio-label"><?php _e('Ascending', BWG()->prefix); ?></label>
-                <input type="radio" name="album_extended_order_by" id="album_extended_order_by_0" value="desc" <?php if ($row->album_extended_order_by == 'desc') echo 'checked="checked"'; ?> /><label for="album_extended_order_by_0" class="wd-radio-label"><?php _e('Descending', BWG()->prefix); ?></label>
-                <p class="description"><?php _e("Set the ordering direction for gallery images, ascending or descending.", BWG()->prefix); ?></p>
+				<div class="wd-width-65">
+					<label class="wd-label" for="album_extended_sort_by"><?php _e('Order images by', BWG()->prefix); ?></label>
+					<select name="album_extended_sort_by" id="album_extended_sort_by">
+					  <option value="order" <?php if ($row->album_extended_sort_by == 'order') echo 'selected="selected"'; ?>><?php _e('Default', BWG()->prefix); ?></option>
+					  <option value="alt" <?php if ($row->album_extended_sort_by == 'alt') echo 'selected="selected"'; ?>><?php _e('Title', BWG()->prefix); ?></option>
+					  <option value="date" <?php if ($row->album_extended_sort_by == 'date') echo 'selected="selected"'; ?>><?php _e('Date', BWG()->prefix); ?></option>
+					  <option value="filename" <?php if ($row->album_extended_sort_by == 'filename') echo 'selected="selected"'; ?>><?php _e('Filename', BWG()->prefix); ?></option>
+					  <option value="size" <?php if ($row->album_extended_sort_by == 'size') echo 'selected="selected"'; ?>><?php _e('Size', BWG()->prefix); ?></option>
+					  <option value="filetype" <?php if ($row->album_extended_sort_by == 'filetype') echo 'selected="selected"'; ?>><?php _e('Type', BWG()->prefix); ?></option>
+					  <option value="resolution" <?php if ($row->album_extended_sort_by == 'resolution') echo 'selected="selected"'; ?>><?php _e('Resolution', BWG()->prefix); ?></option>
+					  <option value="random" <?php if ($row->album_extended_sort_by == 'random') echo 'selected="selected"'; ?>><?php _e('Random', BWG()->prefix); ?></option>
+					</select>
+				</div>
+				<div class="wd-width-30">
+					<select name="album_extended_order_by" id="album_extended_order_by">
+						<option value="asc" <?php if ($row->album_extended_order_by == 'asc') echo 'selected="selected"'; ?>><?php _e('Ascending', BWG()->prefix); ?></option>
+						<option value="desc" <?php if ($row->album_extended_order_by == 'desc') echo 'selected="selected"'; ?>><?php _e('Descending', BWG()->prefix); ?></option>
+					</select>
+				</div>
+                <p class="description"><?php _e("Select the parameter and order direction to sort the gallery images with. E.g. Title and Ascending.", BWG()->prefix); ?></p>
               </div>
             </div>
             <div class="wd-box-content wd-width-100">
@@ -3136,13 +3177,17 @@ class OptionsView_bwg extends AdminView_bwg {
             </div>
             <div class="wd-box-content wd-width-100">
               <div class="wd-group">
-                <label class="wd-label"><?php _e('Gallery view type', BWG()->prefix); ?></label>
-                <div class="bwg-flex">
-                  <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="album_extended_view_type" id="album_extended_view_type_1" value="thumbnail" <?php if ($row->album_extended_view_type == "thumbnail") echo 'checked="checked"'; ?> onClick="bwg_enable_disable('none', 'tr_album_extended_mosaic', 'album_extended_view_type_1'); bwg_enable_disable('none', 'tr_album_extended_resizable_mosaic', 'album_extended_view_type_1'); bwg_enable_disable('none', 'tr_album_extended_mosaic_total_width', 'album_extended_view_type_1');bwg_enable_disable('', 'for_album_extended_image_title_show_hover_0', 'album_extended_view_type_1');bwg_enable_disable('', 'album_extended_image_title_show_hover_0', 'album_extended_view_type_1');bwg_enable_disable('', 'for_album_extended_ecommerce_icon_show_hover_0', 'album_extended_view_type_1');" /><label for="album_extended_view_type_1" class="wd-radio-label"><?php _e('Thumbnail', BWG()->prefix); ?></label>
-                  <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="album_extended_view_type" id="album_extended_view_type_0" value="masonry" <?php if ($row->album_extended_view_type == "masonry") echo 'checked="checked"'; ?> onClick="bwg_enable_disable('none', 'tr_album_extended_mosaic', 'album_extended_view_type_0'); bwg_enable_disable('none', 'tr_album_extended_resizable_mosaic', 'album_extended_view_type_0'); bwg_enable_disable('none', 'tr_album_extended_mosaic_total_width', 'album_extended_view_type_0');bwg_enable_disable('', 'for_album_extended_image_title_show_hover_0', 'album_extended_view_type_0');bwg_enable_disable('', 'album_extended_image_title_show_hover_0', 'album_extended_view_type_0');bwg_enable_disable('', 'for_album_extended_ecommerce_icon_show_hover_0', 'album_extended_view_type_0');" /><label for="album_extended_view_type_0" class="wd-radio-label"><?php _e('Masonry', BWG()->prefix); ?></label>
-                  <input <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?> type="radio" name="album_extended_view_type" id="album_extended_view_type_2" value="mosaic" <?php if ($row->album_extended_view_type == "mosaic") echo 'checked="checked"'; ?> onClick="bwg_enable_disable('', 'tr_album_extended_mosaic', 'album_extended_view_type_2'); bwg_enable_disable('', 'tr_album_extended_resizable_mosaic', 'album_extended_view_type_2'); bwg_enable_disable('', 'tr_album_extended_mosaic_total_width', 'album_extended_view_type_2');bwg_enable_disable('none', 'for_album_extended_image_title_show_hover_0', 'album_extended_view_type_2');bwg_enable_disable('none', 'album_extended_image_title_show_hover_0', 'album_extended_view_type_2');bwg_enable_disable('none', 'for_album_extended_ecommerce_icon_show_hover_0', 'album_extended_view_type_2');" /><label for="album_extended_view_type_2" class="wd-radio-label"><?php _e('Mosaic', BWG()->prefix); ?></label>
-                </div>
-                <p class="description"><?php _e('Choose the display type for gallery groups, Thumbnails, Masonry or Mosaic.', BWG()->prefix); ?></p>
+                <label class="wd-label" for="album_extended_view_type"><?php _e('Gallery view type', BWG()->prefix); ?></label>
+                <select name="album_extended_view_type" id="album_extended_view_type" <?php echo BWG()->is_pro ? '' : 'disabled="disabled"'; ?>>
+                  <option value="thumbnail" <?php if ($row->album_extended_view_type == 'thumbnail') echo 'selected="selected"'; ?>><?php _e('Thumbnail', BWG()->prefix); ?></option>
+                  <option value="masonry" <?php if ($row->album_extended_view_type == 'masonry') echo 'selected="selected"'; ?>><?php _e('Masonry', BWG()->prefix); ?></option>
+                  <option value="mosaic" <?php if ($row->album_extended_view_type == 'mosaic') echo 'selected="selected"'; ?>><?php _e('Mosaic', BWG()->prefix); ?></option>
+                  <option value="slideshow" <?php if ($row->album_extended_view_type == 'slideshow') echo 'selected="selected"'; ?>><?php _e('Slideshow', BWG()->prefix); ?></option>
+                  <option value="image_browser" <?php if ($row->album_extended_view_type == 'image_browser') echo 'selected="selected"'; ?>><?php _e('Image Browser', BWG()->prefix); ?></option>
+                  <option value="blog_style" <?php if ($row->album_extended_view_type == 'blog_style') echo 'selected="selected"'; ?>><?php _e('Blog Style', BWG()->prefix); ?></option>
+                  <option value="carousel" <?php if ($row->album_extended_view_type == 'carousel') echo 'selected="selected"'; ?>><?php _e('Carousel', BWG()->prefix); ?></option>
+                </select>
+                <p class="description"><?php _e('Choose the display type for gallery groups, Thumbnails, Masonry, Mosaic, Slideshow, Image browser, Blog style or Carousel.', BWG()->prefix); ?></p>
                 <?php if ( !BWG()->is_pro ) { ?><p class="description spider_free_version"><?php echo BWG()->free_msg; ?></p><?php } ?>
               </div>
             </div>

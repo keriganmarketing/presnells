@@ -376,14 +376,14 @@ function onBtnBackClick(event, obj) {
 }
 
 function onPathComponentClick(event, obj, key) {
-	if (typeof key != "undefined" && key == 0) {
-		path = "";
-	}
-	else {
-		path = jQuery(obj).html();
-		path = path.trim();
-	}
-	submit("", null, null, null, path, null, null, null, null, null, null);
+	var path = '';
+	var pathArr = [];
+	jQuery("#path .path_dir").each( function( i,v ) {
+		path += ( i == 0 ) ? '' : '/' + jQuery(v).text().trim();
+		pathArr[i] = path;
+	});
+	var path = ( pathArr[key] ) ? pathArr[key] : '';
+	submit('display', null, null, null, path, null, null, null, null, null, null);
 }
 
 function onBtnShowImportClick(event, obj) {
@@ -410,17 +410,7 @@ function onKeyDown(e) {
 	var e = e || window.event;
 	var chCode1 = e.which || e.paramlist_keyCode;
 	if ((e.ctrlKey || e.metaKey) && chCode1 == 65) {
-		all_files_selected = true;
-		jQuery(".explorer_item").addClass("explorer_item_select");
-		jQuery(".importer_item").addClass("importer_item_select");
-		filesSelected = [];
-		jQuery(".explorer_item").each(function() {
-		  var objName = jQuery(this).attr("name");
-		  if (filesSelected.indexOf(objName) == -1) {
-			filesSelected.push(objName);
-			keyFileSelected = this;
-		  }
-		});
+    onBtnSelectAllClick(dir + DS);
 		e.preventDefault();
 	}
 }

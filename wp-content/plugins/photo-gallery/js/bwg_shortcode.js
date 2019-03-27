@@ -1,5 +1,10 @@
 var bwg_shortcode_type;
+
 jQuery(document).ready(function () {
+  jQuery(".bwg_tw-container").parents().find(".wrap.wd-wrap-ajax").css({
+    'height': 'calc(100% - 55px)'
+  });
+
   jQuery(".mce-toolbar-grp.mce-inline-toolbar-grp.mce-container.mce-panel", parent.document).hide();
   /* Add tabs. */
   jQuery(".bwg_tabs").each(function () {
@@ -46,7 +51,16 @@ jQuery(document).ready(function () {
       jQuery('.masonry_col_num').show();
     }
   });
-
+	show_hide_compact_album_view( jQuery('#album_view_type option:selected').val() );
+	jQuery(document).on('change', '#album_view_type', function() {
+		var value = jQuery(this).val();
+		show_hide_compact_album_view( value );
+	});
+	show_hide_extended_album_view( jQuery('#album_extended_view_type option:selected').val() );
+	jQuery(document).on('change', '#album_extended_view_type', function() {
+		var value = jQuery(this).val();
+		show_hide_extended_album_view( value );
+	});
 });
 
 jQuery(window).load(function() {
@@ -351,11 +365,8 @@ function bwg_change_compuct_album_view_type() {
       jQuery("#compuct_album_image_thumb_dimensions").html(bwg_image_thumb_height);
       jQuery("#compuct_album_image_thumb_width").css('display', 'none');
       jQuery("#compuct_album_image_thumb_height").css('display', '');
-
     }
-    
   }
-  
 }
 
 function bwg_change_label(id, text) {
@@ -589,4 +600,170 @@ function bwg_pagination_description(that) {
   obj = jQuery(that);
   obj.closest('.wd-group').find('.description').hide();
   jQuery('#' + obj.attr('name') + '_' + obj.val() + '_description').show();
+}
+
+function show_hide_compact_album_view ( val ) {
+	switch(val) {
+		case 'thumbnail': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_images_per_page', '');
+		}
+		break;
+		case 'masonry': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_images_per_page', '');
+		}
+		break;
+		case 'mosaic': {
+			bwg_show_hide('tr_album_mosaic', '');
+			bwg_show_hide('tr_album_resizable_mosaic', '');
+			bwg_show_hide('tr_album_mosaic_total_width', '');;
+			bwg_show_hide('for_album_image_title_show_hover_0', 'none');
+			bwg_show_hide('album_image_title_show_hover_0', 'none');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', 'none');
+			bwg_show_hide('tr_album_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_images_per_page', '');
+		}
+		break;
+		case 'slideshow': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_images_per_page', 'none');
+		}
+		case 'image_browser': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_images_per_page', 'none');
+		}
+		break;
+		case 'blog_style': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_images_per_page', '');
+		}
+		break;
+		case 'carousel': {
+			bwg_show_hide('tr_album_mosaic', 'none');
+			bwg_show_hide('tr_album_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_image_title_show_hover_0', '');
+			bwg_show_hide('album_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_images_per_page', 'none');
+		}
+		break;
+	}
+}
+
+function show_hide_extended_album_view ( val ) {
+	switch(val) {
+		case 'thumbnail': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_extended_images_per_page', '');
+		}
+		break;
+		case 'masonry': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_extended_images_per_page', '');
+		}
+		break;
+		case 'mosaic': {
+			bwg_show_hide('tr_album_extended_mosaic', '');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', '');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', '');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', 'none');
+			bwg_show_hide('album_extended_image_title_show_hover_0', 'none');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', 'none');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', '');
+			bwg_show_hide('tr_album_extended_images_per_page', '');
+		}
+		break;
+		case 'slideshow': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_extended_images_per_page', 'none');
+		}
+		case 'image_browser': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_extended_images_per_page', 'none');
+		}
+		break;
+		case 'blog_style': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_extended_images_per_page', '');
+		}
+		break;
+		case 'carousel': {
+			bwg_show_hide('tr_album_extended_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_resizable_mosaic', 'none');
+			bwg_show_hide('tr_album_extended_mosaic_total_width', 'none');
+			bwg_show_hide('for_album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('album_extended_image_title_show_hover_0', '');
+			bwg_show_hide('for_album_extended_ecommerce_icon_show_hover_0', '');
+			bwg_show_hide('tr_album_extended_thumbnail_dimensions', 'none');
+			bwg_show_hide('tr_album_extended_images_per_page', 'none');
+		}
+		break;
+	}
+}
+
+function bwg_show_hide(id, display) {
+	jQuery("#" + id).css('display', display);
 }

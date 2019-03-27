@@ -5,14 +5,27 @@ class BWGViewAlbum_extended_preview extends BWGViewSite {
 
   public function display( $params = array(), $bwg = 0 ) {
     /* Gallery view class.*/
+	$gallery_type = 'Thumbnails';
     if ( $params['gallery_view_type'] == 'masonry' ) {
       $gallery_type = 'Thumbnails_masonry';
     }
     elseif ( $params['gallery_view_type'] == 'mosaic' ) {
       $gallery_type = 'Thumbnails_mosaic';
     }
-    else {
-      $gallery_type = 'Thumbnails';
+    elseif (  $params['gallery_view_type'] == 'mosaic' ) {
+      $gallery_type = 'Thumbnails_mosaic';
+    }
+	elseif (  $params['gallery_view_type'] == 'slideshow' ) {
+      $gallery_type = 'Slideshow';
+    }
+	elseif ( $params['gallery_view_type'] == 'image_browser' ) {
+      $gallery_type = 'Image_browser';
+    }
+	elseif ( $params['gallery_view_type'] == 'blog_style' ) {
+      $gallery_type = 'Blog_style';
+    }
+    elseif ( $params['gallery_view_type'] == 'carousel' ) {
+      $gallery_type = 'Carousel';
     }
     require_once BWG()->plugin_dir . '/frontend/views/BWGView' . $gallery_type . '.php';
     $view_class = 'BWGView' . $gallery_type;
@@ -71,7 +84,7 @@ class BWGViewAlbum_extended_preview extends BWGViewSite {
            class="bwg-album-extended bwg-border-box bwg-thumbnails bwg-container bwg-container-<?php echo $bwg; ?> bwg-album-thumbnails bwg_album_extended_thumbnails_<?php echo $bwg; ?>">
         <?php
         if ( !$params['album_gallery_rows']['page_nav']['total'] ) {
-          echo WDWLibrary::message(__('Album is empty.', BWG()->prefix), 'wd_error');
+          echo WDWLibrary::message(__('No results found.', BWG()->prefix), 'wd_error');
         }
         foreach ( $params['album_gallery_rows']['rows'] as $row ) {
           $href = add_query_arg(array(
@@ -348,8 +361,9 @@ class BWGViewAlbum_extended_preview extends BWGViewSite {
       $params['mosaic_hor_ver'] = $params['extended_album_mosaic_hor_ver'];
       $params['resizable_mosaic'] = $params['extended_album_resizable_mosaic'];
       $params['mosaic_total_width'] = $params['extended_album_mosaic_total_width'];
-
-      echo $this->gallery_view->inline_styles($bwg, $theme_row, $params);
+	  if ( !in_array( $params['gallery_type'], array('slideshow', 'image_browser', 'blog_style', 'carousel') ) ) {
+		echo $this->gallery_view->inline_styles($bwg, $theme_row, $params);
+	  }
     }
 
     return ob_get_clean();

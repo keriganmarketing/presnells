@@ -2686,7 +2686,7 @@ msgstr "Вид просмотра галереи"
 
 #: admin/views/Options.php:2624 admin/views/Options.php:3111
 msgid ""
-"Choose the display type for gallery groups, Thumbnails, Masonry or Mosaic."
+"Choose the display type for gallery groups, Thumbnails, Masonry, Mosaic, Slideshow, Image browser, Blog style or Carousel."
 msgstr ""
 
 #: admin/views/Options.php:2729

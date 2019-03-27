@@ -103,7 +103,7 @@ class AlbumsgalleriesView_bwg extends AdminView_bwg {
                 <strong class="has-media-icon">
                   <a class="wd-pointer" onclick="window.parent.bwg_add_album_gallery('<?php echo $row->id; ?>', '<?php echo htmlspecialchars(addslashes($row->is_album)); ?>', '<?php echo htmlspecialchars(addslashes($preview_image)); ?>', '<?php echo htmlspecialchars(addslashes($row->name)); ?>','<?php echo !$row->published ? 'dashicons-hidden' : 'hidden' ?>')" id="a_<?php echo $iterator; ?>">
                     <span class="media-icon image-icon">
-                      <img class="preview-image" title="<?php echo $row->title; ?>" src="<?php echo $preview_image; ?>" width="60" height="60" />
+                      <img class="preview-image" title="<?php echo $row->name; ?>" src="<?php echo $preview_image; ?>" width="60" height="60" />
                     </span>
                     <?php echo $row->name?>
                   </a>

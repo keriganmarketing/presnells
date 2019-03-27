@@ -3,7 +3,7 @@
  * Plugin Name: Photo Gallery
  * Plugin URI: https://10web.io/plugins/wordpress-photo-gallery/
  * Description: This plugin is a fully responsive gallery plugin with advanced functionality.  It allows having different image galleries for your posts and pages. You can create unlimited number of galleries, combine them into albums, and provide descriptions and tags.
- * Version: 1.5.17
+ * Version: 1.5.20
  * Author: Photo Gallery Team
  * Author URI: https://10web.io/plugins/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,8 +81,8 @@ final class BWG {
     $this->plugin_dir = WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__));
     $this->plugin_url = plugins_url(plugin_basename(dirname(__FILE__)));
     $this->main_file = plugin_basename(__FILE__);
-    $this->plugin_version = '1.5.17';
-    $this->db_version = '1.5.17';
+    $this->plugin_version = '1.5.20';
+    $this->db_version = '1.5.20';
     $this->prefix = 'bwg';
     $this->nicename = __('Photo Gallery', $this->prefix);
 
@@ -241,7 +241,10 @@ final class BWG {
   public function robots() {
     if ( isset($this->options->noindex_custom_post) && $this->options->noindex_custom_post ) {
       global $wp;
-      $current_relative_url = trailingslashit(add_query_arg($_SERVER['QUERY_STRING'], '', trailingslashit($wp->request)));
+      $current_relative_url = trailingslashit($wp->request);
+      if ( isset($_SERVER['QUERY_STRING']) ) {
+        $current_relative_url = trailingslashit(add_query_arg($_SERVER['QUERY_STRING'], '', $current_relative_url));
+      }
       if ( strpos($current_relative_url, 'bwg_gallery') !== FALSE
       || strpos($current_relative_url, 'bwg_album') !== FALSE
       || strpos($current_relative_url, 'bwg_tag') !== FALSE ) {
@@ -627,6 +630,11 @@ final class BWG {
 
     // For drag and drop on mobiles.
     wp_register_script($this->prefix . '_jquery.ui.touch-punch.min', $this->plugin_url . '/js/jquery.ui.touch-punch.min.js', array(), '0.2.3');
+
+    $current_screen = get_current_screen();
+    if ( !$this->is_pro && $current_screen->id == "toplevel_page_bwg_subscribe" ) {
+      wp_enqueue_style($this->prefix . '_subscribe', $this->plugin_url . '/css/bwg_subscribe.css', array(), $this->plugin_version);
+    }
   }
 
   /**
@@ -1350,8 +1358,8 @@ final class BWG {
       'bwg_pause' => __('Pause', $this->prefix),
       'bwg_hide_info' => __('Hide info', $this->prefix),
       'bwg_show_info' => __('Show info', $this->prefix),
-      'bwg_hide_rating' => __('Hide info', $this->prefix),
-      'bwg_show_rating' => __('Show info', $this->prefix),
+      'bwg_hide_rating' => __('Hide rating', $this->prefix),
+      'bwg_show_rating' => __('Show rating', $this->prefix),
       'ok' => __('Ok', $this->prefix),
       'cancel' => __('Cancel', $this->prefix),
       'select_all' => __('Select all', $this->prefix),
@@ -1384,7 +1392,7 @@ final class BWG {
    */
   public function overview() {
     if (is_admin() && !isset($_REQUEST['ajax'])) {
-      if (!class_exists("TenWebLib")) {
+      if (!class_exists("TenWebLibNew")) {
         $plugin_dir = apply_filters('tenweb_free_users_lib_path', array('version' => '1.1.1', 'path' => $this->plugin_dir));
         require_once($plugin_dir['path'] . '/wd/start.php');
       }
@@ -1620,7 +1628,7 @@ final class BWG {
         "display_overview" => false,
       );
 
-      ten_web_lib_init($bwg_options);
+      ten_web_new_lib_init($bwg_options);
     }
   }
 
@@ -1890,15 +1898,16 @@ function photo_gallery( $id ) {
 }
 
 /**
- * Show notice to install 10web manager plugin
+ * Show 10Web manager plugin install or activate banner.
+ *
+ * @return string
  */
 function wdpg_tenweb_install_notice() {
-  // Show notice only on plugin pages.
-  if ( ( !isset($_GET['page']) || strpos(esc_html($_GET['page']), '_bwg') === FALSE ) || ( isset($_GET['task']) && !strpos(esc_html($_GET['task']), 'edit') === TRUE ) ) {
+  // Show notice only on galleries, gallery groups, themes list and options pages.
+  if ( ( !isset($_GET['page']) || strpos(esc_html($_GET['page']), '_bwg') === FALSE ) ||
+    ( isset($_GET['task']) && !strpos(esc_html($_GET['task']), 'edit') === TRUE && !(strpos(esc_html($_GET['task']), 'display') > -1))) {
     return '';
   }
-  wp_enqueue_script('thickbox');
-  wp_enqueue_script('bwg_admin', BWG()->plugin_url . '/js/bwg.js', array(), BWG()->plugin_version);
 
   // Remove old notice.
   if ( get_option('tenweb_notice_status') !== FALSE ) {
@@ -1909,597 +1918,279 @@ function wdpg_tenweb_install_notice() {
   if ( $meta_value === '' || $meta_value === FALSE ) {
     ob_start();
     $prefix = BWG()->prefix;
-    $nicename = BWG()->nicename;
     $url = BWG()->plugin_url;
     $dismiss_url = add_query_arg(array( 'action' => 'wd_tenweb_dismiss' ), admin_url('admin-ajax.php'));
-
-    $slug = '10web-manager';
-    $install_url = esc_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $slug), 'install-plugin_' . $slug));
-    $activation_url = na_action_link($slug.'/10web-manager.php', 'activate');
-    $tenweb_url = admin_url( 'admin.php?page=tenweb_menu' );
     $verify_url = add_query_arg( array ('action' => 'tenweb_status'), admin_url('admin-ajax.php'));
     ?>
-    <div class="notice" id="wd_tenweb_notice_cont" style="display: none;">
-      <div class="tenweb_logo notice_col"><img id="wd_tenweb_logo_notice" src="<?php echo $url . '/images/tenweb/10web-logo.svg'; ?>" /></div>
-      <div class="tenweb_description notice_col">
-        <div>
-          <h1><?php _e("Hey There...", $prefix); ?></h1>
-          <p><?php _e("Connect this website to 10Web dashboard to enable all the services for your magical photo website management experience:", $prefix); ?></p>
-        </div>
-      </div>
-      <div class="tenweb_plugins_icons notice_col">
-        <div id="tenweb_plugins_icons_cont">
-          <span class="tenweb_plugins_icons_item"><img src="<?php echo $url . '/images/tenweb/Group 53914.svg'; ?>" /><span>Image optimizer</span></span>
-          <span class="tenweb_plugins_icons_item"><img src="<?php echo $url . '/images/tenweb/Group 53915.svg'; ?>" /><span>SEO</span></span>
-          <span class="tenweb_plugins_icons_item"><img src="<?php echo $url . '/images/tenweb/Group 53916.svg'; ?>" /><span>Automatic backup</span></span>
-          <span class="tenweb_plugins_icons_item"><img src="<?php echo $url . '/images/tenweb/Group 53917.svg'; ?>" /><span>Performance Check</span></span>
-          <span class="tenweb_plugins_icons_item"><img src="<?php echo $url . '/images/tenweb/Group 58983.svg'; ?>" /><span>Security</span></span>
-        </div>
-      </div>
-      <div class="tenweb_action notice_col">
-        <div>
-          <p><?php _e("Just install this plugin, and signup for free.", $prefix); ?></p>
-          <?php
-          $plugin_dir = ABSPATH . 'wp-content/plugins/10web-manager/';
-          if ( is_dir($plugin_dir) && !is_plugin_active( '10web-manager/manager.php' ) ) {
-            ?>
-            <a class="button tenweb_activaion" id="activate_now" data-tenweb-url="<?php echo $tenweb_url; ?>" data-install-url="<?php echo $install_url; ?>" data-activate-url="<?php echo $activation_url; ?>"><?php _e("Activate", $prefix); ?></a>
-            <span class="spinner" id="loading"></span>
-            <span class="error_activate hide"><?php _e("Activation failed, please try again.", $prefix); ?></span>
-            <?php
-          } else if( ! is_dir($plugin_dir) ) {
-            ?>
-            <a class="button tenweb_activaion" id="install_now" data-install-url="<?php echo $install_url; ?>" data-activate-url="<?php echo $activation_url; ?>"><?php _e("Install", $prefix); ?></a>
-            <a class="button tenweb_activaion hide" id="activate_now" data-tenweb-url="<?php echo $tenweb_url; ?>" data-install-url="<?php echo $install_url; ?>" data-activate-url="<?php echo $activation_url; ?>"><?php _e("Activation", $prefix); ?></a>
-            <span class="spinner" id="loading"></span>
-            <span class="error_install hide tenweb_active"><?php _e("Installation failed, please try again.", $prefix); ?></span>
-            <?php
-          }
-          ?>
-        </div>
-      </div>
-      <button type="button" class="wd_tenweb_notice_dissmiss notice-dismiss" onclick="jQuery('#wd_tenweb_notice_cont').attr('style', 'display: none !important;'); jQuery.post('<?php echo $dismiss_url; ?>');"><span class="screen-reader-text"></span></button>
-      <div id="verifyUrl" data-url="<?php echo $verify_url ?>"></div>
-    </div>
-    <script>
-      var url = jQuery(".tenweb_activaion").attr("data-install-url");
-      var activate_url = jQuery(".tenweb_activaion").attr("data-activate-url");
-
-      function install_tenweb_plugin() {
-        jQuery("#loading").addClass('is-active');
-        jQuery(this).prop('disable',true);
-        var io_plugin_url = '<?php echo plugins_url('10web-manager/10web-manager.php');?>'; // Getting 10web manager plugin url
-
-        jQuery.ajax({
-          method: "POST",
-          url: url,
-        }).done(function() {
-		  // Check if plugin installed
-          jQuery.ajax({
-            type: 'POST',
-			dataType: 'json',
-            url: jQuery("#verifyUrl").attr('data-url'),
-            error: function()
-            {
-              jQuery("#loading").removeClass('is-active');
-              jQuery(".error_install").show();
-            },
-            success: function(response)
-            {
-              if ( response.status_install == 1 ) {
-                jQuery('#install_now').addClass('hide');
-                jQuery('#activate_now').removeClass('hide');
-
-				activate_tenweb_plugin();
-              }
-              else {
-                jQuery("#loading").removeClass('is-active');
-                jQuery(".error_install").removeClass('hide');
-              }
-            }
-          });
-        })
-		.fail(function() {
-			jQuery("#loading").removeClass('is-active');
-			jQuery(".error_install").removeClass('hide');
-		});
-      }
-
-      function activate_tenweb_plugin() {
-        jQuery("#loading").addClass('is-active');
-        jQuery.ajax({
-          method: "POST",
-          url: activate_url,
-        }).done(function() {
-          jQuery("#loading").removeClass('is-active');
-          var data_tenweb_url = '';
-		  // Check if plugin installed
-          jQuery.ajax({
-            type: 'POST',
-			dataType: 'json',
-            url: jQuery("#verifyUrl").attr('data-url'),
-            error: function()
-            {
-              jQuery("#loading").removeClass('is-active');
-              jQuery(".error_activate").removeClass('hide');
-            },
-            success: function(response)
-            {
-              if ( response.status_active == 0 ) {
-                jQuery('#install_now').addClass('hide');
-                data_tenweb_url = jQuery('#activate_now').attr('data-tenweb-url');
-                jQuery.post('<?php echo $dismiss_url; ?>');
-              }
-              else {
-                jQuery("#loading").removeClass('is-active');
-                jQuery(".error_activate").removeClass('hide');
-              }
-            },
-            complete : function() {
-              if ( data_tenweb_url != '' ) {
-               window.location.href = data_tenweb_url;
-              }
-            }
-          });
-        })
-		.fail(function() {
-			jQuery("#loading").removeClass('is-active');
-		});
-      }
-
-      jQuery("#install_now").on("click",function(){
-        install_tenweb_plugin();
-      });
-      jQuery("#activate_now").on("click",function(){
-        activate_tenweb_plugin();
-	  });
-    </script>
     <style>
-      #wd_tenweb_notice_cont {
-        height: 137px;
-        border-radius: 10px;
-        position: relative;
-        background-image: url("<?php echo $url?>/images/tenweb/notice_bg.png");
-        background-position: center center;
-        display: inline-block!important;
-      }
-
-      #wd_tenweb_notice_cont .spinner {
-        background: url("<?php echo $url?>/images/spinner.gif") no-repeat;
-        background-size: 15px 15px;
-        margin: 0px;
-        position:absolute;
-        width: 15px;
-        height: 15px;
-        bottom: 7px;
-        right: 10px;
-      }
-
-      #wd_tenweb_notice_cont p {
-        color: #333B46;
-      }
-
-      .tenweb_action div {
-        position: relative;
-      }
-
-      .notice_col {
-        display: flex;
-        float: left;
-        height: 140px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      #wd_tenweb_notice_cont .notice-dismiss {
-        padding: 0px;
-        margin: 5px;
-      }
-
-      .tenweb_description {
-        position: relative;
-      }
-
-      .tenweb_description div {
-        display: flex;
-        height: 140px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .tenweb_description h1 {
-        font-size: 24px;
-        font-weight: 500;
-        width: 100%;
-      }
-      .tenweb_description p {
-        font-size: 13px;
-      }
-
-      .tenweb_plugins_icons{
-        position: relative;
-      }
-
-      .tenweb_plugins_icons #tenweb_plugins_icons_cont {
-        display: flex;
-        height: 110px;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-
-      }
-
-      .tenweb_plugins_icons_item {
-        float: left;
-        line-height: 25px;
-        margin-right: 25px;
-        margin-bottom: 15px;
-      }
-
-      .tenweb_plugins_icons_item:last-child {
-        margin-right: 0;
-      }
-
-      .tenweb_plugins_icons_item img {
-        width: 25px;
-        float: left;
-        margin-right: 5px;
-      }
-
-      .tenweb_plugins_icons_item span {
-        line-height: 25px;
-        font-size: 14px;
-        font-weight: 500;
-      }
-
-      .tenweb_action .tenweb_activaion {
-        background-color: #323A45;
-        width: 100%;
-        text-align: center;
-        color: #fff;
-        border: 1px solid #323A45;
-        border-radius: 15px;
-        height: 30px;
-        line-height: 30px;
-        margin: 0px;
-        font-weight: 500;
-      }
-
-      .tenweb_action .tenweb_activaion:hover {
-        background-color: #323A45;
-        color:#ffffff
-      }
-
-      .tenweb_logo{
-        width: calc(12% - 10px);
-        padding: 0 10px 0 0;
-        display: flex;
-        height: 140px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-
-      }
-      .tenweb_logo img {
-      }
-
-      .tenweb_description {
-        width: calc(30% - 20px);
-        padding: 0 0 0 2%;
-      }
-
-      .tenweb_plugins_icons {
-        width: calc(41% - 20px);
-        padding: 0 10px;
-      }
-
-      .tenweb_action {
-        width: calc(15% - 10px);
-        margin-right: 1%;
-        position: relative;
-      }
-
-      .tenweb_action p {
-        text-align: center;
-        font-size: 14px;
-        padding: 0px;
-      }
-
-      @media only screen and (min-width: 1920px) {
-        .tenweb_logo {
-          width: calc(15% - 10px);
-        }
-
-        body #wd_tenweb_logo_notice {
-          height: 50px;
-        }
-
-        .tenweb_description {
-          width: calc(37% - 20px);
-        }
-
-        .tenweb_description p {
-          font-size: 18px;
-        }
-
-        .tenweb_plugins_icons {
-          width: calc(35% - 20px);
-        }
-
-        .tenweb_plugins_icons_item span {
-          font-size: 16px;
-        }
-
-        .tenweb_action {
-          width: calc(11% - 10px);
-        }
-
-        .tenweb_action .tenweb_activaion {
-          height: 35px;
-          line-height: 35px;
-          font-size: 16px;
-          font-weight: 500;
-        }
-
-        .tenweb_action p {
-          font-size: 15px;
-          font-weight: 500;
-        }
-      }
-
-      @media only screen and (min-width: 1440px) and (max-width: 1919px){
-        .tenweb_logo {
-          width: calc(15% - 10px);
-        }
-
-        body #wd_tenweb_logo_notice {
-          height: 40px;
-        }
-
-        .tenweb_description {
-          width: calc(30% - 20px);
-        }
-
-        .tenweb_description p {
-          font-size: 16px;
-        }
-
-        .tenweb_plugins_icons {
-          width: calc(41% - 20px);
-        }
-
-        .tenweb_plugins_icons_item span {
-          font-size: 15px;
-        }
-
-        .tenweb_action {
-          width: calc(12% - 10px);
-        }
-
-        .tenweb_action .tenweb_activaion {
-          height: 35px;
-          line-height: 35px;
-          font-size: 16px;
-          font-weight: 500;
-        }
-
-        .tenweb_action p {
-          font-size: 15px;
-          font-weight: 500;
-          line-height: 19px;
-        }
-      }
-
-      @media only screen and (max-width: 1439px) and (min-width: 1025px) {
-        .tenweb_logo {
-          width: calc(13% - 10px);
-        }
-
-        body #wd_tenweb_logo_notice {
-          height: 30px;
-        }
-
-        .tenweb_description {
-          width: calc(34% - 20px);
-        }
-
-        .tenweb_description p {
-          font-size: 15px;
-        }
-
-        .tenweb_plugins_icons {
-          width: calc(40% - 20px);
-        }
-
-        .tenweb_plugins_icons_item span {
-          font-size: 15px;
-        }
-
-        .tenweb_action {
-          width: calc(12% - 10px);
-        }
-
-        .tenweb_action .tenweb_activaion {
-          height: 35px;
-          line-height: 35px;
-          font-size: 16px;
-          font-weight: 500;
-        }
-
-        .tenweb_action p {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 19px;
-        }
-      }
-
-      @media only screen and (max-width: 1024px) {
-        #wd_tenweb_notice_cont {
-          width: calc(100% - 20px);
-          height: auto;
-          display: inline-block;
-        }
-        .notice_col {
-          width:100%;
-          min-height:50px;
-          height: auto;
-          margin: auto;
-          text-align: center;
-          padding: 0px;
-        }
-
-        .tenweb_plugins_icons_item span {
-          font-size: 14px;
-        }
-
-        .tenweb_logo img {
-          position: relative;
-          float: inherit;
-          text-align: center;
-        }
-
-        #wd_tenweb_notice_cont #wd_tenweb_logo_notice {
-          float: none;
-        }
-
-        .tenweb_action {
-          margin-bottom: 20px;
-        }
-
-        .tenweb_action a.tenweb_activaion {
-          width: 150px;
-          height: 30px;
-          padding: 0;
-
-        }
-
-        .tenweb_description div {
-          height: auto;
-        }
-
-        .tenweb_description h1 {
-          font-size: 18px;
-          font-weight: 500;
-          padding-top: 0;
-          margin-left: 10px;
-        }
-
-        .tenweb_action p {
-          font-size: 14px;
-        }
-
-        .tenweb_description p {
-          font-size: 15px;
-        }
-
-        .tenweb_plugins_icons #tenweb_plugins_icons_cont {
-          display: flex;
-          height: 80px;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-        }
-
-        #wd_tenweb_notice_cont .spinner {
-          right: 70px;
-        }
-
-
-      }
-
-
-
-      @media only screen and (max-width: 500px) {
-        body #wd_backup_logo {
-          max-width: 100%;
-        }
-
-        .tenweb_plugins_icons #tenweb_plugins_icons_cont {
-          display: flex;
-          height: 110px;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-          margin: 15px 0;
-        }
-
-        body #wd_tenweb_notice_cont p {
-          padding-right: 0;
-        }
-
-        .tenweb_plugins_icons_item {
-          margin-right: 20px;
-          margin-bottom: 0px;
-        }
-
-        .tenweb_action .tenweb_activaion {
-          width: 100%!important;
-        }
-
-      }
-
-
       .hide {
-        display: none!important;
+        display: none !important;
       }
-      #verifyUrl{
+      #verifyUrl {
         display: none
       }
-
       #loading {
-        vertical-align: middle;
-        float: none!important;
-        margin: 0 !important;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0px;
+        background: url("<?php echo $url . '/images/spinner.gif'; ?>") no-repeat;
+        background-size: 20px 20px;
+        filter: alpha(opacity=70);
       }
       #wd_tenweb_logo_notice {
         height: 32px;
         float: left;
-        margin-right: 10px;
       }
       .error_install, .error_activate {
-        color:red;
+        color: red;
         font-size: 10px;
       }
-
-
-      #wd_tenweb_notice_cont a {
-        margin: 0 5px;
+      /* -------------------Version 2 styles------------------ */
+      #wpbody-content #v2_tenweb_notice_cont {
+        display: flex;
+        flex-wrap: wrap;
+        width: calc(100% - 25px);
+        background: #fff;
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+        position: relative;
+        margin-top: 50px;
+        padding: 5px 0;
+        overflow: hidden;
+        border-left: 4px solid #0073AA;
+        font-family: Open Sans, sans-serif;
+        height: 40px;
+        min-height: 40px;
       }
-      #wd_tenweb_notice_cont .dashicons-dismiss:before {
-        content: "\f153";
-        background: 0 0;
-        color: #72777c;
-        display: block;
-        font: 400 16px/20px dashicons;
-        speak: none;
-        height: 20px;
+      .v2_logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: inherit;
+      }
+
+      #v2_tenweb_notice_cont {
+        height: 50px;
+        padding: 0px;
+      }
+
+      .v2_content {
+        flex-grow: 1;
+        height: inherit;
+        margin-left: 34px;
+      }
+
+      .v2_content p {
+        font-size: 16px;
+        color: #333B46;
+        font-weight: 600;
+        line-height: 40px;
+        margin: 0;
+      }
+      #wd_tenweb_logo_notice {
+        margin-left: 35px;
+        height: 30px;
+        line-height: 100%;
+      }
+
+      .v2_button {
+        display: flex;
+        margin-right: 30px;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .v2_button #install_now, #activate_now {
+        width: 112px;
+        height: 32px;
+        line-height: 30px;
+        font-size: 14px;
         text-align: center;
-        width: 20px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        padding: 0;
       }
-      .wd_tenweb_notice_dissmiss {
-        margin-top: 5px;
+
+      #v2_tenweb_notice_cont .wd_tenweb_notice_dissmiss.notice-dismiss {
+        top: 3px;
+        right: 3px;
+        padding: 0px;
+      }
+
+      .v2_button .button {
+        position: relative;
+      }
+
+      .v2_button .button #loading {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0px;
+        background-size: 12px 12px;
+        filter: alpha(opacity=70);
+        width: 12px;
+        height: 12px;
+      }
+
+      @media only screen and (max-width: 1200px) and (min-width: 821px) {
+        #wpbody-content #v2_tenweb_notice_cont {
+          height: 50px;
+          min-height: 50px;
+        }
+
+        #v2_tenweb_notice_cont {
+          height: 60px;
+        }
+
+        .v2_content {
+          margin-left: 25px;
+        }
+        .v2_content p {
+          font-size: 14px;
+          color: #333B46;
+          font-weight: 600;
+          line-height: 20px;
+          margin-top: 5px;
+        }
+        .v2_content p span {
+          display: block;
+        }
+
+        #wd_tenweb_logo_notice {
+          margin-left: 25px;
+          height: 30px;
+          line-height: 100%;
+        }
+
+        .v2_button {
+          display: flex;
+          margin-right: 30px;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .v2_button #install_now {
+          width: 112px;
+          height: 32px;
+          line-height: 30px;
+          font-size: 14px;
+          text-align: center;
+          padding: 0;
+        }
+
+        #v2_tenweb_notice_cont .wd_tenweb_notice_dissmiss.notice-dismiss {
+          top: 3px;
+          right: 3px;
+        }
+      }
+
+      @media only screen and (max-width: 820px) and (min-width: 781px) {
+
+        #wpbody-content #v2_tenweb_notice_cont {
+          height: 50px;
+          min-height: 50px;
+        }
+
+        #v2_tenweb_notice_cont {
+          height: 60px;
+        }
+
+        .v2_content {
+          margin-left: 25px;
+        }
+
+        .v2_content p {
+          font-size: 13px;
+          color: #333B46;
+          font-weight: 600;
+          line-height: 20px;
+          margin-top: 5px;
+        }
+
+        .v2_content p span {
+          display: block;
+        }
+
+      }
+
+      @media only screen and (max-width: 780px) {
+
+        #wpbody-content #v2_tenweb_notice_cont {
+          height: auto;
+          min-height: auto;
+          width: calc(100% - 20px);
+        }
+
+        #v2_tenweb_notice_cont {
+          height: auto;
+          padding: 5px;
+          width: calc(100% - 35px);
+        }
+
+        .v2_logo {
+          display: block;
+          height: auto;
+          width: 100%;
+          margin-top: 5px;
+        }
+
+        .v2_content {
+          display: block;
+          margin-left: 9px;
+          margin-top: 10px;
+          width: calc(100% - 10px);
+        }
+
+        .v2_content p {
+          line-height: unset;
+          font-size: 15px;
+          line-height: 25px;
+        }
+        .v2_content p span{
+          display: block
+        }
+        #wd_tenweb_logo_notice {
+          margin-left: 9px;
+        }
+
+        .v2_button {
+          margin-left: 9px;
+          margin-top: 10px;
+          margin-bottom: 5px;
+        }
       }
     </style>
+    <div id="v2_tenweb_notice_cont" class="wd-admin-notice">
+      <div class="v2_logo">
+        <img id="wd_tenweb_logo_notice" src="<?php echo $url . '/images/tenweb/Photo-Gallery-logo.svg'; ?>" />
+      </div>
+      <div class="v2_content">
+        <p>
+          <?php echo sprintf(__('%sPhoto Gallery advises:%s %sUse Image Optimizer service to optimize your images quickly and easily.%s', $prefix), '<span>','</span>', '<span>','</span>'); ?>
+        </p>
+      </div>
+      <div class="v2_button">
+        <?php WDWLibrary::twbb_install_button(2); ?>
+      </div>
+      <button type="button" class="wd_tenweb_notice_dissmiss notice-dismiss" onclick="jQuery('#v2_tenweb_notice_cont').attr('style', 'display: none !important;'); jQuery.post('<?php echo $dismiss_url; ?>');"><span class="screen-reader-text"></span></button>
+      <div id="verifyUrl" data-url="<?php echo $verify_url; ?>"></div>
+    </div>
     <?php
+
     echo ob_get_clean();
   }
 }
 
-if( !function_exists('is_plugin_active') ) {
+if ( !function_exists('is_plugin_active') ) {
   include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 }
 
-if( !is_plugin_active( '10web-manager/10web-manager.php' ) ) {
+if ( !is_plugin_active( '10web-manager/10web-manager.php' ) && !BWG()->is_pro ) {
   add_action('admin_notices', 'wdpg_tenweb_install_notice');
 }
 
 if ( !function_exists('wd_tenwebps_install_notice_status') ) {
-  // Add usermeta to db.
+  // Add usermeta to DB.
   function wd_tenwebps_install_notice_status() {
     update_option('tenweb_notice_status', '1', 'no');
   }
@@ -2510,27 +2201,28 @@ if ( !function_exists('wd_tenwebps_install_notice_status') ) {
 function check_tenweb_status() {
   $status_install = 0;
   $status_active = 0;
-  $plugin_dir = ABSPATH . 'wp-content/plugins/10web-manager/';
-  if ( is_dir($plugin_dir) ) {
+  if ( WDWLibrary::is_plugin_installed('10web-manager') ) {
     $status_install = 1;
-  } else if ( is_plugin_active( '10web-manager/10web-manager.php' ) ) {
-    $status_active = 1;
   }
-
-  if ( is_dir($plugin_dir) ) {
-	$old_opt_array = array();
-	$new_opt_array = array('photo-gallery' => 101); // core_id
-	$key = 'tenweb_manager_installed';
-	$option = get_option($key);
-	if ( !empty($option) ) {
-		$old_opt_array = (array) json_decode($option);
-	}
-	$array_installed = array_merge( $new_opt_array, $old_opt_array );
-	update_option( $key, json_encode($array_installed) );
+  else {
+    if ( is_plugin_active('10web-manager/10web-manager.php') ) {
+      $status_active = 1;
+    }
   }
-
-  $jsondata = array('status_install' => $status_install, 'status_active' => $status_active);
-  echo json_encode($jsondata); exit;
+  if ( WDWLibrary::is_plugin_installed('10web-manager') ) {
+    $old_opt_array = array();
+    $new_opt_array = array( 'photo-gallery' => 101 ); // core_id
+    $key = 'tenweb_manager_installed';
+    $option = get_option($key);
+    if ( !empty($option) ) {
+      $old_opt_array = (array) json_decode($option);
+    }
+    $array_installed = array_merge($new_opt_array, $old_opt_array);
+    update_option($key, json_encode($array_installed));
+  }
+  $jsondata = array( 'status_install' => $status_install, 'status_active' => $status_active );
+  echo json_encode($jsondata);
+  exit;
 }
 add_action('wp_ajax_tenweb_status', 'check_tenweb_status');
 

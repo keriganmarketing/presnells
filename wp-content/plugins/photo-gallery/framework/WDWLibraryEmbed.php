@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for handling embedded media in gallery
  *
@@ -98,20 +97,20 @@ class WDWLibraryEmbed {
     //sixth is for video's fbid if url is video url
     $sixth = strtok('/');
     if ( $second_token === 'www.facebook.com') {
-        $json_data = array("error", "Incorect url.");
-		    if ( has_filter('init_facebook_add_embed_bwg') ) {
-          $arg = array(
-            'app_id' => BWG()->options->facebook_app_id,
-            'app_secret' => BWG()->options->facebook_app_secret,
-            'third_token' => $third_token,
-            'fourth' => $fourth,
-            'fifth' => $fifth,
-            'sixth' => $sixth,
-            'url' => $url
-          );
-          $json_data = array();
-          $json_data = apply_filters('init_facebook_add_embed_bwg', array(), $arg);
-        }
+      $json_data = array("error", "Incorect url.");
+      if ( has_filter('init_facebook_add_embed_bwg') ) {
+        $arg = array(
+          'app_id' => BWG()->options->facebook_app_id,
+          'app_secret' => BWG()->options->facebook_app_secret,
+          'third_token' => $third_token,
+          'fourth' => $fourth,
+          'fifth' => $fifth,
+          'sixth' => $sixth,
+          'url' => $url
+        );
+        $json_data = array();
+        $json_data = apply_filters('init_facebook_add_embed_bwg', array(), $arg);
+      }
 		  return json_encode($json_data);
     }
 	
@@ -133,14 +132,14 @@ class WDWLibraryEmbed {
       }
     }
     /*
-		 * Wordpress oembed not recognize instagram post url,
-		 * so we check manually.
-		*/
-		if ( !$host ) {
-			$parse = parse_url($url);
-			$host = ($parse['host'] == "www.instagram.com") ? 'INSTAGRAM' : false;
-		}
-		/*return json_encode($host); for test*/
+     * Wordpress oembed not recognize instagram post url,
+     * so we check manually.
+    */
+    if ( !$host ) {
+      $parse = parse_url($url);
+      $host = ($parse['host'] == "www.instagram.com") ? 'INSTAGRAM' : FALSE;
+    }
+    /*return json_encode($host); for test*/
     /*handling oembed cases*/    
     if ( $host ) {
       /*instagram is exception*/
@@ -216,7 +215,7 @@ class WDWLibraryEmbed {
           'thumb' => 'https://instagram.com/p/' . $thumb_filename . '/media/?size=m',
           'size' => '',
           'filetype' => $embed_type,
-          'date_modified' => date('d F Y, H:i'),
+          'date_modified' => date("Y-m-d H:i:s"),
           'resolution' => $instagram_data->images->standard_resolution->width . " x " . $instagram_data->images->standard_resolution->height . " px",
           'redirect_url' => '');
         if ($instagram_data->type == 'video') {
@@ -268,7 +267,7 @@ class WDWLibraryEmbed {
           'thumb' => 'https://instagram.com/p/' . $filename . '/media/?size=m',
           'size' => '',
           'filetype' => $embed_type,
-          'date_modified' => date('d F Y, H:i'),
+          'date_modified' => date("Y-m-d H:i:s"),
           'resolution' => $instagram_data->images->standard_resolution->width . " x " . $instagram_data->images->standard_resolution->height . " px",
           'redirect_url' => '');
  
@@ -283,7 +282,7 @@ class WDWLibraryEmbed {
       else { /*one of known oembed types*/
         $embed_type = 'EMBED_OEMBED_'.$host;
         switch ($embed_type) {
-          case 'EMBED_OEMBED_YOUTUBE':
+          case 'EMBED_OEMBED_YOUTUBE': {
             $youtube_regex = "#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#";
             $matches = array();
             preg_match($youtube_regex , $url , $matches);
@@ -299,15 +298,13 @@ class WDWLibraryEmbed {
               'thumb' => $result->thumbnail_url,
               'size' => '',
               'filetype' => $embed_type."_VIDEO",
-              'date_modified' => date('d F Y, H:i'),
+              'date_modified' => date("Y-m-d H:i:s"),
               'resolution' => $result->width." x ".$result->height." px",
               'redirect_url' => '');
-
             return json_encode($embedData);
+          }
           break;
-
-          case 'EMBED_OEMBED_VIMEO':
-            
+          case 'EMBED_OEMBED_VIMEO': {
             $embedData = array(
               'name' => '',
               'description' => htmlspecialchars($result->title),
@@ -318,14 +315,14 @@ class WDWLibraryEmbed {
               'thumb' => $result->thumbnail_url,
               'size' => '',
               'filetype' => $embed_type."_VIDEO",
-              'date_modified' => date('d F Y, H:i'),
+              'date_modified' => date("Y-m-d H:i:s"),
               'resolution' => $result->width." x ".$result->height." px",
               'redirect_url' => '');
 
             return json_encode($embedData);
+		      }
           break;
-
-          case 'EMBED_OEMBED_FLICKR':
+          case 'EMBED_OEMBED_FLICKR': {
             $matches = preg_match('~^.+/(\d+)~',$url,$matches);
             $filename = $matches[1];
             /*if($result->type =='photo')
@@ -345,15 +342,14 @@ class WDWLibraryEmbed {
               'thumb' => $result->thumbnail_url,
               'size' => '',
               'filetype' => $embed_type,
-              'date_modified' => date('d F Y, H:i'),
+              'date_modified' => date("Y-m-d H:i:s"),
               'resolution' => $result->width." x ".$result->height." px",
               'redirect_url' => '');
-
             return json_encode($embedData);
+		      }
           break;
-          case 'EMBED_OEMBED_DAILYMOTION':
+          case 'EMBED_OEMBED_DAILYMOTION': {
             $filename = strtok(basename($url), '_');
-
             $embedData = array(
               'name' => '',
               'description' => htmlspecialchars($result->title),
@@ -364,14 +360,15 @@ class WDWLibraryEmbed {
               'thumb' => $result->thumbnail_url,
               'size' => '',
               'filetype' => $embed_type."_VIDEO",
-              'date_modified' => date('d F Y, H:i'),
+              'date_modified' => date("Y-m-d H:i:s"),
               'resolution' => $result->width." x ".$result->height." px",
               'redirect_url' => '');
 
             return json_encode($embedData);
+          }
           break;
-          case 'EMBED_OEMBED_GETTYIMAGES':
-             /*not working yet*/
+          case 'EMBED_OEMBED_GETTYIMAGES': {
+			      /*not working yet*/
             $filename = strtok(basename($url), '_');
             
             $embedData = array(
@@ -384,11 +381,12 @@ class WDWLibraryEmbed {
               'thumb' => $result->thumbnail_url,
               'size' => '',
               'filetype' => $embed_type,
-              'date_modified' => date('d F Y, H:i'),
+              'date_modified' => date("Y-m-d H:i:s"),
               'resolution' => $result->width." x ".$result->height." px",
               'redirect_url' => '');
 
             return json_encode($embedData);
+		      }
           default:
             return json_encode( array("error", __('The entered URL is incorrect. Please check the URL and try again.', BWG()->prefix) ) );
           break;

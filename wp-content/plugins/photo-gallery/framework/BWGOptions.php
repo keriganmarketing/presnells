@@ -171,7 +171,9 @@ class WD_BWG_Options {
   public $album_image_thumb_height = 140;
   public $album_enable_page = 1;
   public $albums_per_page = 30;
-  public $album_images_per_page = 30;
+  public $album_images_per_page = 30;  
+  public $compact_album_sort_by = 'order';
+  public $compact_album_order_by = 'asc';
   public $album_sort_by = 'order';
   public $album_order_by = 'asc';
   public $album_show_search_box = 0;
@@ -199,6 +201,8 @@ class WD_BWG_Options {
   public $album_masonry_enable_page = 1;
   public $albums_masonry_per_page = 30;
   public $album_masonry_images_per_page = 30;
+  public $masonry_album_sort_by = 'order';
+  public $masonry_album_order_by = 'asc';
   public $album_masonry_sort_by = 'order';
   public $album_masonry_order_by = 'asc';
   public $album_masonry_show_search_box = 0;
@@ -223,6 +227,8 @@ class WD_BWG_Options {
   public $album_extended_enable_page = 1;
   public $albums_extended_per_page = 30;
   public $album_extended_images_per_page = 30;
+  public $extended_album_sort_by = 'order';
+  public $extended_album_order_by = 'asc';
   public $album_extended_sort_by = 'order';
   public $album_extended_order_by = 'asc';
   public $album_extended_show_search_box = 0;

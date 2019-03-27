@@ -168,6 +168,7 @@ class GalleriesView_bwg extends AdminView_bwg {
     );
 
     echo $this->form(ob_get_clean(), $form_attr);
+
   }
 
   /**
@@ -629,21 +630,8 @@ class GalleriesView_bwg extends AdminView_bwg {
           <input id="check_all" type="checkbox" />
         </td>
         <td class="col_num">#</td>
-        <th class="column-primary"><?php _e('Image', BWG()->prefix); ?></th>
-        <th class="col_alt"><?php _e('Alt/Title', BWG()->prefix); ?></th>
-        <th class="col_desc"><?php _e('Description', BWG()->prefix); ?></th>
-        <th class="col_redirect">
-          <?php _e('Redirect URL', BWG()->prefix); ?>
-          <i class="wd-info dashicons dashicons-info" data-id="wd-info-redirect"></i>
-          <div id="wd-info-redirect" class="wd-hide">
-            <p><?php
-              $link = '<a target="_blank" href="'.add_query_arg(array('page' => 'options_bwg'), admin_url('admin.php')).'">'. __('Options > General', BWG()->prefix) . '</a>';
-              echo sprintf(__('To activate this feature, go to %s, then set "Image click action" to "Redirect to URL". Please use absolute URLs when specifying the links.', BWG()->prefix), $link);
-              ?>
-            </p>
-          </div>
-        </th>
-        <th class="col_tag"><?php _e('Tags', BWG()->prefix); ?></th>
+        <th class="column-primary column-title"><?php _e('Image', BWG()->prefix); ?></th>
+        <th></th>
       </thead>
       <tbody id="tbody_arr" data-meta="<?php echo BWG()->options->read_metadata; ?>" class="bwg-ordering">
       <?php
@@ -740,54 +728,75 @@ class GalleriesView_bwg extends AdminView_bwg {
                 <span class="screen-reader-text"><?php _e('Show more details', BWG()->prefix); ?></span>
               </button>
             </td>
-            <td data-colname="<?php _e('Alt/Title', BWG()->prefix); ?>">
-              <textarea rows="4" id="image_alt_text_<?php echo $row->id; ?>" name="image_alt_text_<?php echo $row->id; ?>"><?php echo $row->alt; ?></textarea>
-            </td>
-            <td class="col_desc" data-colname="<?php _e('Description', BWG()->prefix); ?>">
-              <textarea rows="4" id="image_description_<?php echo $row->id; ?>" name="image_description_<?php echo $row->id; ?>"><?php echo $row->description; ?></textarea>
-              <?php
-              if ( function_exists('BWGEC') ) {
-                $priselist_name = $row->priselist_name ? "Pricelist: " . $row->priselist_name : "Not for sale";
-                $unset = $priselist_name == "Not for sale" ? "" : " <span onclick='bwg_remove_pricelist(this);' data-image-id= '" . $row->id . "' data-pricelist-id='" . $row->pricelist_id . "' class ='spider_delete_img_small' style='margin-top: -2px;margin-left: 3px;'></span>";
-                echo "<div><strong>" . $priselist_name . " </strong>" . $unset . "</div>";
-                $not_set_text = $row->not_set_items == 1 ? __('Selected pricelist item longest dimension greater than some original images dimensions.', BWG()->prefix) : "";
-                echo "<small id='priselist_set_error" . $row->id . "' style='color:#B41111;' >" . $not_set_text . "</small>";
-                echo "<input type='hidden' id='pricelist_id_" . $row->id . "' value='" . $row->pricelist_id . "'>";
-              }
-              ?>
-            </td>
-            <td data-colname="<?php _e('Redirect URL', BWG()->prefix); ?>" class="redirect_cont">
-              <textarea rows="4" onkeypress="prevent_new_line(event)" class="bwg_redirect_url" id="redirect_url_<?php echo $row->id; ?>" name="redirect_url_<?php echo $row->id; ?>"><?php echo $row->redirect_url; ?></textarea>
-            </td>
-            <td data-colname="<?php _e('Tags', BWG()->prefix); ?>">
-              <div class="tags_div<?php echo count($row->tags) > 1 ? '' : ' wd-hide'; ?>" id="tags_div_<?php echo $row->id; ?>">
-                <?php
-                $tags_id_string = '';
-                if ( $row->tags ) {
-                  foreach ( $row->tags as $row_tag_data ) {
-                    ?>
-                    <div class="tag_div<?php echo $row_tag_data->term_id == 'temptagid' ? ' wd-tag-template wd-hide' : ''; ?>" id="<?php echo $row->id; ?>_tag_<?php echo $row_tag_data->term_id; ?>">
-                      <span class="tag_name"><?php echo $row_tag_data->name; ?></span>
-                      <span class="dashicons dashicons-no-alt wd-delete-tag" title="<?php _e('Remove tag', BWG()->prefix); ?>" onclick="bwg_remove_tag('<?php echo $row_tag_data->term_id; ?>', '<?php echo $row->id; ?>')" />
-                    </div>
-                    <?php
-                    $tags_id_string .= ($row_tag_data->term_id == 'temptagid' ? '' : ($row_tag_data->term_id . ','));
-                  }
-                }
-                ?>
-              </div>
-              <div class="row-actions">
-                <a onclick="jQuery('#loading_div').show();" href="<?php echo $add_tag_url; ?>" class="thickbox thickbox-preview"><?php _e('Add tag', BWG()->prefix); ?></a>
-              </div>
+            <td class="column-data">
+              <div class="bwg-td-container">
+                <div class="bwg-td-item">
+                  <label class="wd-table-label" for="image_alt_text_<?php echo $row->id; ?>"><?php _e('Alt/Title', BWG()->prefix); ?></label>
+                  <textarea rows="4" id="image_alt_text_<?php echo $row->id; ?>" name="image_alt_text_<?php echo $row->id; ?>"><?php echo $row->alt; ?></textarea>
+                </div>
+                <div class="bwg-td-item">
+                  <label class="wd-table-label" for="image_description_<?php echo $row->id; ?>"><?php _e('Description', BWG()->prefix); ?></label>
+                  <textarea rows="4" id="image_description_<?php echo $row->id; ?>" name="image_description_<?php echo $row->id; ?>"><?php echo $row->description; ?></textarea>
+                </div>
 
-              <input type="hidden" value="<?php echo $tags_id_string; ?>" id="tags_<?php echo $row->id; ?>" name="tags_<?php echo $row->id; ?>" />
-              <input type="hidden" id="image_url_<?php echo $row->id; ?>" name="image_url_<?php echo $row->id; ?>" value="<?php echo $row->pure_image_url; ?>" />
-              <input type="hidden" id="thumb_url_<?php echo $row->id; ?>" name="thumb_url_<?php echo $row->id; ?>" value="<?php echo $row->pure_thumb_url; ?>" />
-              <input type="hidden" id="input_filename_<?php echo $row->id; ?>" name="input_filename_<?php echo $row->id; ?>" value="<?php echo $row->filename; ?>" />
-              <input type="hidden" id="input_date_modified_<?php echo $row->id; ?>" name="input_date_modified_<?php echo $row->id; ?>" value="<?php echo $row->date; ?>" />
-              <input type="hidden" id="input_resolution_<?php echo $row->id; ?>" name="input_resolution_<?php echo $row->id; ?>" value="<?php echo $row->resolution; ?>" />
-              <input type="hidden" id="input_size_<?php echo $row->id; ?>" name="input_size_<?php echo $row->id; ?>" value="<?php echo $row->size; ?>" />
-              <input type="hidden" id="input_filetype_<?php echo $row->id; ?>" name="input_filetype_<?php echo $row->id; ?>" value="<?php echo $row->filetype; ?>" />
+                  <?php
+                  if ( function_exists('BWGEC') ) {
+                    $priselist_name = $row->priselist_name ? "Pricelist: " . $row->priselist_name : "Not for sale";
+                    $unset = $priselist_name == "Not for sale" ? "" : " <span onclick='bwg_remove_pricelist(this);' data-image-id= '" . $row->id . "' data-pricelist-id='" . $row->pricelist_id . "' class ='spider_delete_img_small' style='margin-top: -2px;margin-left: 3px;'></span>";
+                    echo "<div class=\"bwg-td-item\"><div><strong>" . $priselist_name . " </strong>" . $unset . "</div>";
+                    $not_set_text = $row->not_set_items == 1 ? __('Selected pricelist item longest dimension greater than some original images dimensions.', BWG()->prefix) : "";
+                    echo "<small id='priselist_set_error" . $row->id . "' style='color:#B41111;' >" . $not_set_text . "</small>";
+                    echo "<input type='hidden' id='pricelist_id_" . $row->id . "' value='" . $row->pricelist_id . "'></div>";
+                  }
+                  ?>
+
+                <div class="bwg-td-item">
+                  <label class="wd-table-label" for="redirect_url_<?php echo $row->id; ?>"><?php _e('Redirect URL', BWG()->prefix); ?></label>
+                  <i class="wd-info dashicons dashicons-info" data-id="wd-info-redirect"></i>
+                  <div id="wd-info-redirect" class="wd-hide">
+                    <p><?php
+                      $link = '<a target="_blank" href="'.add_query_arg(array('page' => 'options_bwg'), admin_url('admin.php')).'">'. __('Options > General', BWG()->prefix) . '</a>';
+                      echo sprintf(__('To activate this feature, go to %s, then set "Image click action" to "Redirect to URL". Please use absolute URLs when specifying the links.', BWG()->prefix), $link);
+                      ?>
+                    </p>
+                  </div>
+                  <textarea rows="4" onkeypress="prevent_new_line(event)" class="bwg_redirect_url" id="redirect_url_<?php echo $row->id; ?>" name="redirect_url_<?php echo $row->id; ?>"><?php echo $row->redirect_url; ?></textarea>
+                </div>
+                <div class="bwg-td-item">
+                  <label class="wd-table-label"><?php _e('Tags', BWG()->prefix); ?></label>
+                  <div class="tags_div<?php echo count($row->tags) > 1 ? '' : ' tags_div_empty'; ?>">
+                    <?php
+                    $tags_id_string = '';
+                    if ( $row->tags ) {
+                      ?>
+                      <div id="tags_div_<?php echo $row->id; ?>">
+                      <?php
+                      foreach ( $row->tags as $row_tag_data ) {
+                        ?>
+                        <div class="tag_div<?php echo $row_tag_data->term_id == 'temptagid' ? ' wd-tag-template wd-hide' : ''; ?>" id="<?php echo $row->id; ?>_tag_<?php echo $row_tag_data->term_id; ?>">
+                          <span class="tag_name"><?php echo $row_tag_data->name; ?></span>
+                          <span class="dashicons dashicons-no-alt wd-delete-tag" title="<?php _e('Remove tag', BWG()->prefix); ?>" onclick="bwg_remove_tag('<?php echo $row_tag_data->term_id; ?>', '<?php echo $row->id; ?>')" />
+                        </div>
+                        <?php
+                        $tags_id_string .= ($row_tag_data->term_id == 'temptagid' ? '' : ($row_tag_data->term_id . ','));
+                      }
+                      ?>
+                      </div>
+                      <?php
+                    }
+                    ?>
+                    <a onclick="jQuery('#loading_div').show();" href="<?php echo $add_tag_url; ?>" class="thickbox thickbox-preview"><span class="dashicons dashicons-plus"></span><?php _e('Add tag', BWG()->prefix); ?></a>
+                  </div>
+                </div>
+                <input type="hidden" value="<?php echo $tags_id_string; ?>" id="tags_<?php echo $row->id; ?>" name="tags_<?php echo $row->id; ?>" />
+                <input type="hidden" id="image_url_<?php echo $row->id; ?>" name="image_url_<?php echo $row->id; ?>" value="<?php echo $row->pure_image_url; ?>" />
+                <input type="hidden" id="thumb_url_<?php echo $row->id; ?>" name="thumb_url_<?php echo $row->id; ?>" value="<?php echo $row->pure_thumb_url; ?>" />
+                <input type="hidden" id="input_filename_<?php echo $row->id; ?>" name="input_filename_<?php echo $row->id; ?>" value="<?php echo $row->filename; ?>" />
+                <input type="hidden" id="input_date_modified_<?php echo $row->id; ?>" name="input_date_modified_<?php echo $row->id; ?>" value="<?php echo $row->date; ?>" />
+                <input type="hidden" id="input_resolution_<?php echo $row->id; ?>" name="input_resolution_<?php echo $row->id; ?>" value="<?php echo $row->resolution; ?>" />
+                <input type="hidden" id="input_size_<?php echo $row->id; ?>" name="input_size_<?php echo $row->id; ?>" value="<?php echo $row->size; ?>" />
+                <input type="hidden" id="input_filetype_<?php echo $row->id; ?>" name="input_filetype_<?php echo $row->id; ?>" value="<?php echo $row->filetype; ?>" />
+              </div>
             </td>
           </tr>
           <?php

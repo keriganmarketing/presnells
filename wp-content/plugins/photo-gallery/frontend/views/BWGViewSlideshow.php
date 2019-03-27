@@ -501,14 +501,19 @@ public function display($params = array(), $bwg = 0) {
     $content = ob_get_clean();
   }
 
-  parent::container($params, $bwg, $content);
+	if ( $params['ajax'] ) { /* Ajax response after ajax call for filters and pagination.*/
+      parent::ajax_content($params, $bwg, $content);
+    }
+    else {
+      parent::container($params, $bwg, $content);
+    }
 }
 
-private function inline_styles($bwg, $theme_row, $params, $image_width, $image_height, $filmstrip_direction, $slideshow_filmstrip_height, $options, $left_or_top, $width_or_height, $filmstrip_thumb_margin_hor, $slideshow_filmstrip_width, $image_rows, $watermark_position, $slideshow_title_position, $slideshow_description_position, $watermark_height, $watermark_width, $watermark_opacity, $watermark_font_size, $watermark_font, $watermark_color, $enable_slideshow_filmstrip) {
+public function inline_styles($bwg, $theme_row, $params, $image_width, $image_height, $filmstrip_direction, $slideshow_filmstrip_height, $options, $left_or_top, $width_or_height, $filmstrip_thumb_margin_hor, $slideshow_filmstrip_width, $image_rows, $watermark_position, $slideshow_title_position, $slideshow_description_position, $watermark_height, $watermark_width, $watermark_opacity, $watermark_font_size, $watermark_font, $watermark_color, $enable_slideshow_filmstrip) {
   ob_start();
   ?>
   #bwg_container1_<?php echo $bwg; ?> {
-  /*visibility: hidden;*/
+	/*visibility: hidden;*/
   }
   #bwg_container1_<?php echo $bwg; ?> * {
 	  -moz-user-select: none;

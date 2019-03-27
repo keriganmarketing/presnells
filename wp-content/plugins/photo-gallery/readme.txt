@@ -3,7 +3,7 @@ Contributors: webdorado,wdsupport,photogallerysupport,10web
 Tags: gallery, photo gallery, image gallery, responsive gallery, wordpress gallery plugin, photo albums, gallery slider, gallery lightbox, wordpress photo gallery plugin, fullscreen gallery, watermarking, video gallery
 Requires at least: 3.4
 Tested up to: 5.1 
-Stable tag: 1.5.17
+Stable tag: 1.5.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -306,6 +306,33 @@ Choose whether to display random or the first/last specific number of images.
 
 
 == Changelog ==
+
+= 1.5.20 =
+* Added: "Get Free Ebook" page on activation.   
+* Updated: jQuery upload library.  
+
+= 1.5.19 =
+* Added: Possibility to open gallery in any view from gallery group.  
+* Added: Search functionality for gallery group views.  
+* Added: Separate ordering option for gallery groups.  
+* Fixed: Stars, Hit counter position with opened control buttons.  
+* Fixed: Gallery edit page responsiveness.  
+* Fixed: File extension as folder name.  
+* Fixed: Add images to gallery selected with shortcode CTRL+A.   
+* Fixed: HTML in image title.   
+* Fixed: Error when clicking allow or skip more than once.   
+* Fixed: Enable/Disable Lightbox Filmstrip.  
+* Fixed: Enable/Disable Lightbox Right Click protection.  
+* Fixed: Enable/Disable Lightbox Autoplay.  
+* Fixed: Crop thumbnail popup dimensions.  
+* Fixed: Rating icon in control buttons.  
+* Fixed: Order by date.   
+* Fixed: Shortcode popup height opened from gutenberg.   
+* Fixed: Lightbox filmstrip thumbnails dimensions.     
+* Improved: Filmstrip.   
+
+= 1.5.18 =
+* Changed: Banner to install 10Web manager.
 
 = 1.5.17 =
 * Fixed: Shortcode popup opened from Gutenberg.
