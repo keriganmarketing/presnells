@@ -815,3 +815,7 @@
 			  FROM %2$s
 			 WHERE target_post_id IN( %3$s )
 		  GROUP BY target_post_id made by edit_post, wp_update_post, wp_insert_post, do_action('save_post'), WP_Hook->do_action, WP_Hook->apply_filters, WPSEO_Link_Watcher->save_post, WPSEO_Link_Content_Processor->process, WPSEO_Link_Content_Processor->update_incoming_links, WPSEO_Meta_Storage->update_incoming_link_count
+[14-Dec-2018 06:35:35 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function _deprecated_file() in /home/presnellsrvresor/public_html/wp-admin/admin-functions.php:12
+Stack trace:
+#0 {main}
+  thrown in /home/presnellsrvresor/public_html/wp-admin/admin-functions.php on line 12

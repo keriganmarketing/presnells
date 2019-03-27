@@ -1,1 +1,0 @@
-Ö/nY<?php exit; ?>a:1:{s:7:"content";s:44:"{"original_image":1124,"cropped_image":1164}";}
