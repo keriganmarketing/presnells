@@ -7,6 +7,11 @@
  * @package resort
  */
 
+use Includes\Modules;
+
+require_once wp_normalize_path(get_template_directory() . '/vendor/autoload.php');
+require_once wp_normalize_path(get_template_directory() . '/inc/acf-fields.php');
+
 if ( ! function_exists( 'resort_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -15,6 +20,7 @@ if ( ! function_exists( 'resort_setup' ) ) :
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
  */
+
 function resort_setup() {
 	/*
 	 * Make theme available for translation.
@@ -62,61 +68,6 @@ function resort_setup() {
 		'gallery',
 		'caption',
 	) );
-
-	/*
-	 * Enable support for Post Formats.
-	 * See https://developer.wordpress.org/themes/functionality/post-formats/
-	 */
-	add_theme_support( 'post-formats', array(
-		'aside',
-		'image',
-		'video',
-		'quote',
-		'link',
-	) );
-
-	// Set up the WordPress core custom background feature.
-	add_theme_support( 'custom-background', apply_filters( 'resort_custom_background_args', array(
-		'default-color' => 'ffffff',
-		'default-image' => '',
-	) ) );
-	
-	register_post_type( 'slide', array(
-		'labels'             => array(
-			'name' 		         => _x( 'Slide', 'post type general name', 'ride' ),
-			'singular_name'      => _x( 'Slide', 'post type singular name', 'ride' ),
-			'menu_name'          => _x( 'Home Page Slideshow', 'admin menu', 'ride' ),
-			'name_admin_bar'     => _x( 'Slide', 'add new on admin bar', 'ride' ),
-			'add_new'            => _x( 'Add New', 'slide', 'ride' ),
-			'add_new_item'       => __( 'Add New Slide', 'ride' ),
-			'new_item'           => __( 'New Slide', 'ride' ),
-			'edit_item'          => __( 'Edit Slides', 'ride' ),
-			'view_item'          => __( 'View Slides', 'ride' ),
-			'all_items'          => __( 'All Slides', 'ride' ),
-			'search_items'       => __( 'Search Slides', 'ride' ),
-			'parent_item_colon'  => __( 'Parent Slide:', 'ride' ),
-			'not_found'          => __( 'No slides found.', 'ride' ),
-			'not_found_in_trash' => __( 'No slides found in Trash.', 'ride' )
-		),
-		'public'             => true,
-		'publicly_queryable' => true,
-		'show_ui'            => true,
-		'show_in_menu'       => true,
-		'query_var'          => true,
-		'rewrite'            => array( 
-				'slug' 			=> 'slides',   			//string Customize the permalink structure slug. Defaults to the $post_type value. Should be translatable.
-				'with_front' 	=> false, 				//bool Should the permalink structure be prepended with the front base. <br>
-														//(example: if your permalink structure is /blog/, then your links will be: false-> /news/, true->/blog/news/). Defaults to true
-				'feeds' 		=> true, 				//bool Should a feed permalink structure be built for this post type. Defaults to has_archive value
-				'pages' 		=> false				//bool Should the permalink structure provide for pagination. Defaults to true
-			),
-		'menu_icon'          => 'dashicons-images-alt2',
-		'capability_type'    => 'post',
-		'has_archive'        => true,
-		'hierarchical'       => true,
-		'menu_position'      => null,
-		'supports'           => array( 'title', 'page-attributes', 'revisions', 'thumbnail', 'custom-fields' )
-	));
 	
 	register_post_type( 'testimonial', array(
 		'labels'             => array(
@@ -167,7 +118,7 @@ add_action( 'after_setup_theme', 'resort_setup' );
  * @global int $content_width
  */
 function resort_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'resort_content_width', 640 );
+	$GLOBALS['content_width'] = apply_filters( 'resort_content_width', 900 );
 }
 add_action( 'after_setup_theme', 'resort_content_width', 0 );
 
@@ -193,19 +144,8 @@ add_action( 'widgets_init', 'resort_widgets_init' );
  * Enqueue scripts and styles.
  */
 function resort_scripts() {
-	wp_enqueue_style('fonts', 'https://fonts.googleapis.com/css?family=Bitter:400,400italic,700');
-	wp_enqueue_style('bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css');
-	//wp_enqueue_style('bootstrap-tables', get_template_directory_uri() . '/css/responsive-tables.css');
 	wp_enqueue_style( 'resort-style', get_stylesheet_uri() );
-	//wp_enqueue_style('style-2', get_template_directory_uri() . '/style2.css');
-	wp_enqueue_script( 'resort-navigation', get_template_directory_uri()  . '/js/navigation.js', array(), '20120206', true );
-	wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array('jquery'), '', true);
-	//wp_enqueue_script('bootstrap-table-js', get_template_directory_uri() . '/js/responsive-tables.js', array('bootstrap-js'), '', true);
-	wp_enqueue_script( 'resort-skip-link-focus-fix', get_template_directory_uri()  . '/js/skip-link-focus-fix.js', array(), '20130115', true );
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
+	wp_enqueue_script( 'resort-js', get_template_directory_uri() . '/app.js', array(), null, true );
 }
 add_action( 'wp_enqueue_scripts', 'resort_scripts' );
 
@@ -254,3 +194,33 @@ function myfeed_request($qv) {
 }
 add_filter('request', 'myfeed_request');
 
+new KeriganSolutions\KMASlider\KMASliderModule();
+
+// website menu data-only
+function website_menu( $menuID ){
+
+    $data = wp_get_nav_menu_items($menuID);
+    $tempArray = [];
+    $output = [];
+
+    if(!is_array($data)){
+        return '';
+    }
+
+    foreach($data as $key => $item){
+        if($item->menu_item_parent == 0){
+            $item->children = [];
+            $tempArray[$item->ID] = $item;
+        }else{
+            $tempArray[$item->menu_item_parent]->children[] = $item;
+        }
+    }
+
+    foreach($tempArray as $key => $item){
+        $item->title = htmlspecialchars_decode($item->title);
+        $item->classes = implode(' ', $item->classes);
+        $output[$item->menu_order] = $item;
+    }
+
+    return json_encode($output);
+}

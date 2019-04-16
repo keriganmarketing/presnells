@@ -3,7 +3,7 @@
  * Plugin Name: Photo Gallery
  * Plugin URI: https://10web.io/plugins/wordpress-photo-gallery/
  * Description: This plugin is a fully responsive gallery plugin with advanced functionality.  It allows having different image galleries for your posts and pages. You can create unlimited number of galleries, combine them into albums, and provide descriptions and tags.
- * Version: 1.5.20
+ * Version: 1.5.21
  * Author: Photo Gallery Team
  * Author URI: https://10web.io/plugins/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,8 +81,8 @@ final class BWG {
     $this->plugin_dir = WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__));
     $this->plugin_url = plugins_url(plugin_basename(dirname(__FILE__)));
     $this->main_file = plugin_basename(__FILE__);
-    $this->plugin_version = '1.5.20';
-    $this->db_version = '1.5.20';
+    $this->plugin_version = '1.5.21';
+    $this->db_version = '1.5.21';
     $this->prefix = 'bwg';
     $this->nicename = __('Photo Gallery', $this->prefix);
 
@@ -1951,7 +1951,6 @@ function wdpg_tenweb_install_notice() {
       #wpbody-content #v2_tenweb_notice_cont {
         display: flex;
         flex-wrap: wrap;
-        width: calc(100% - 25px);
         background: #fff;
         box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
         position: relative;
@@ -2118,13 +2117,11 @@ function wdpg_tenweb_install_notice() {
         #wpbody-content #v2_tenweb_notice_cont {
           height: auto;
           min-height: auto;
-          width: calc(100% - 20px);
         }
 
         #v2_tenweb_notice_cont {
           height: auto;
           padding: 5px;
-          width: calc(100% - 35px);
         }
 
         .v2_logo {
@@ -2160,7 +2157,7 @@ function wdpg_tenweb_install_notice() {
         }
       }
     </style>
-    <div id="v2_tenweb_notice_cont" class="wd-admin-notice">
+    <div id="v2_tenweb_notice_cont" class="notice wd-notice">
       <div class="v2_logo">
         <img id="wd_tenweb_logo_notice" src="<?php echo $url . '/images/tenweb/Photo-Gallery-logo.svg'; ?>" />
       </div>

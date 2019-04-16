@@ -98,8 +98,12 @@ class TenWebNewLibSubscribe
 
                 $response_body = (!is_wp_error($response) && isset($response["body"])) ? json_decode($response["body"], true) : null;
 
-                if (is_array($response_body) && $response_body["body"]["msg"] == "ok") {
-
+                if (is_array($response_body) && $response_body["status"] == "ok") {
+                  if (get_option($wd_options->prefix . "_subscribe_email") !== false) {
+                    update_option($wd_options->prefix . "_subscribe_email", $data["email"]);
+                  } else {
+                    add_option($wd_options->prefix . "_subscribe_email", $data["email"], '', 'no');
+                  }
                 }
 
             }
@@ -108,8 +112,9 @@ class TenWebNewLibSubscribe
             } else {
                 add_option($wd_options->prefix . "_subscribe_done", "1", '', 'no');
             }
-
-            wp_safe_redirect($wd_options->after_subscribe);
+            if ($_GET[$wd_options->prefix . "_sub_action"] == "skip") {
+              wp_safe_redirect($wd_options->after_subscribe);
+            }
         }
 
     }

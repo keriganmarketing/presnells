@@ -3,7 +3,7 @@ Contributors: webdorado,wdsupport,photogallerysupport,10web
 Tags: gallery, photo gallery, image gallery, responsive gallery, wordpress gallery plugin, photo albums, gallery slider, gallery lightbox, wordpress photo gallery plugin, fullscreen gallery, watermarking, video gallery
 Requires at least: 3.4
 Tested up to: 5.1 
-Stable tag: 1.5.20
+Stable tag: 1.5.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -306,6 +306,10 @@ Choose whether to display random or the first/last specific number of images.
 
 
 == Changelog ==
+
+= 1.5.21 =
+* Added: Ebook delivery confirmation and instructions popup.  
+* Fixed: Screen options.  
 
 = 1.5.20 =
 * Added: "Get Free Ebook" page on activation.   

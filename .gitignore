@@ -1,10 +1,19 @@
+# Dev
 .idea
 .DS_Store
-wp-config.php
+.vscode/
 tags
+
+# Composer / Node
+wp-content/themes/resort/vendor/
+#wp-content/themes/resort/node_modules/
+
+# Logs & Config
 .user.ini
 php.ini
 *error_log
+wp-config.php
+
+# Content
 */cache/
 wp-content/themes/uploads/
-.vscode

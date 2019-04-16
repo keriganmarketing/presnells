@@ -18,10 +18,10 @@ get_header(); ?>
         &nbsp;
         </div>
     </div>
-    <div id="mid" class="support">
+    <div id="mid" class="support py-5">
         <div class="container">
-        	<div class="row">
-            <div id="primary" class="content-area col-md-offset-1 col-md-10 ">
+        	<div class="row justify-content-center">
+            <div id="primary" class="content-area col-lg-10 ">
                 <main id="main" class="site-main" role="main">
         
                     <?php while ( have_posts() ) : the_post(); ?>
