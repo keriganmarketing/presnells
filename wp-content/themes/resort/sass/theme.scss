@@ -407,6 +407,7 @@
         font-family: $bitter;
         text-transform: uppercase;
         margin-bottom: 0;
+        line-height: 1.9rem;
 
         @media screen and (min-width: 768px) {
             font-size: 2.4rem;
@@ -420,6 +421,7 @@
         text-transform: uppercase;
         font-weight: normal;
         margin-bottom: 2rem;
+        line-height: 1.7rem;
 
         @media screen and (min-width: 768px) {
             font-size: 2rem;
@@ -617,10 +619,14 @@ p.review-text {
         ul {
             list-style-type: none;
             line-height: 2rem;
-            
+            margin-bottom: 1rem !important;
+
+            @media (min-width: 768px){
+                margin-bottom: 0 !important;
+            }
 
             a {
-                color: $secondary;
+                color: #50dfcd;
                 font-family: $bitter;
                 text-decoration: none;
                 font-weight: 700;
@@ -643,7 +649,7 @@ p.review-text {
         #menu-footer-navigation-1 {
             a {
                 font-family: $bitter;
-                color: $secondary;
+                color: #50dfcd;
                 font-weight: 700;
                 font-size: 22px;
                 text-decoration: none;
@@ -652,7 +658,7 @@ p.review-text {
 
         h3 {
             font-family: $bitter;
-            color: $secondary;
+            color: #50dfcd;
             font-weight: 700;
             font-size: 22px; 
             margin: 0;
@@ -711,17 +717,17 @@ p.review-text {
 
     #siteby {
         font-size: 14px;
-        color: #007ef5;
+        color: rgba(255,255,255, .6);
         margin-top: 19px;
         * {
-            color: #007ef5;
+            color: rgba(255,255,255, .6);
         }
     }
 
     .copyright {
 
         a, p {
-            color: #007ef5;
+            color: rgba(255,255,255, .6);
             font-size: 14px;
         }
     }
