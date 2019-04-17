@@ -406,9 +406,8 @@
         color: $primary;
         font-family: $bitter;
         text-transform: uppercase;
-        margin-bottom: 0;
         line-height: 1.9rem;
-
+    
         @media screen and (min-width: 768px) {
             font-size: 2.4rem;
             line-height: 2.7rem;
@@ -418,22 +417,18 @@
     h2 {
         color: $secondary;
         font-family: $bitter;
-        text-transform: uppercase;
         font-weight: normal;
-        margin-bottom: 2rem;
-        line-height: 1.7rem;
-
-        @media screen and (min-width: 768px) {
-            font-size: 2rem;
-            line-height: 2.3rem;
-        }
     }
 
     p {
-
+        font-weight: 500;
 
         &.about-button {
             padding: 1rem 0;
+        }
+
+        @media screen and (min-width: 768px) {
+            font-weight: 400;
         }
     }
 
@@ -444,6 +439,27 @@
         p {
             @media screen and (min-width: 768px) {
                 font-size: 1.2rem;
+            }
+        }
+
+        h1 {
+            color: $primary;
+            font-family: $bitter;
+            text-transform: uppercase;
+            margin-bottom: 0;
+        }
+
+        h2 {
+            color: $secondary;
+            font-family: $bitter;
+            text-transform: uppercase;
+            font-weight: normal;
+            margin-bottom: 2rem;
+            line-height: 1.7rem;
+    
+            @media screen and (min-width: 768px) {
+                font-size: 2rem;
+                line-height: 2.3rem;
             }
         }
     }
