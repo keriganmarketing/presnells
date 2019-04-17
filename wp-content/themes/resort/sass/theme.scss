@@ -16,7 +16,6 @@
     background-color: #d4e1f5;
     border-bottom: 4px solid $primary;
     position: fixed;
-    top: 0;
     z-index:50;
     width: 100%;
     height: auto;
@@ -420,8 +419,10 @@
         font-weight: normal;
     }
 
+    li,
     p {
         font-weight: 500;
+        line-height: 1.5rem;
 
         &.about-button {
             padding: 1rem 0;

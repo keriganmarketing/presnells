@@ -13,7 +13,7 @@
 		<div id="bot" class="py-4">
 			<div class="container">
 				<div class="row align-items-center">
-					<div id="footer-nav-container" class="col-lg-6" >
+					<div id="footer-nav-container" class="col-lg-7 col-xl-6" >
 						<div class="redundant-nav">
 							<nav>
 								<div class="row">
@@ -22,7 +22,7 @@
 										'theme_location'  => 'footer-nav-one',
 										'menu'            => '',
 										'container'       => 'div',
-										'container_class' => 'col-md-auto',
+										'container_class' => 'col-md-4 col-lg-auto',
 										'container_id'    => '',
 										'menu_class'      => 'm-0 p-0 px-lg-2',
 										'menu_id'         => '',
@@ -42,7 +42,7 @@
 										'theme_location'  => 'footer-nav-two',
 										'menu'            => '',
 										'container'       => 'div',
-										'container_class' => 'col-md-auto',
+										'container_class' => 'col-md-4 col-lg-auto',
 										'container_id'    => '',
 										'menu_class'      => 'm-0 p-0 px-lg-2',
 										'menu_id'         => '',
@@ -62,7 +62,7 @@
 										'theme_location'  => 'footer-nav-three',
 										'menu'            => '',
 										'container'       => 'div',
-										'container_class' => 'col-md-auto',
+										'container_class' => 'col-md-4 col-lg-auto',
 										'container_id'    => '',
 										'menu_class'      => 'm-0 p-0 px-lg-2',
 										'menu_id'         => '',
@@ -102,7 +102,7 @@
 							</nav>   
 						</div>
 					</div>
-					<div id="google-map" class="radbox col-lg-6" >
+					<div id="google-map" class="radbox col-lg-5 col-xl-6" >
 						<div id="styled-google-map" class="embed-responsive embed-responsive-16by9">
 						<iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3464.056618378146!2d-85.30603018451619!3d29.747074539513104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8894966c11dfd971%3A0xae288e01003ff02a!2sPresnell&#39;s+Bayside+Marina+%26+Rv+Resort!5e0!3m2!1sen!2sus!4v1455286594199"></iframe>
 						</div>
