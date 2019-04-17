@@ -149,18 +149,20 @@ function resort_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'resort_scripts' );
 
-/**
- * Register the block.
- */
-function table_enqueue_block_editor_assets() {
-	wp_enqueue_script(
-		'table-gutenberg-block-editor-script',
-		get_template_directory_uri() . '/js/editor.blocks.js',
-		[ 'wp-blocks', 'wp-element', 'wp-edit-post' ]
-	);
+add_filter( 'render_block', 'my_wrap_table_block_fitler', 10, 3);
+ 
+function my_wrap_table_block_fitler( $block_content, $block ) {
+     
+  if( "core/table" !== $block['blockName'] ) {
+    return $block_content;
+  }
+ 
+  $output = '<div class="table-responsive">';
+  $output .= $block_content;
+  $output .= '</div>';
+ 
+  return $output;
 }
-add_action( 'enqueue_block_editor_assets', 'table_enqueue_block_editor_assets' );
-
 
 /**
  * Implement the Custom Header feature.
