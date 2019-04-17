@@ -13,11 +13,7 @@
  */
 
 get_header(); ?>
-    <div id="blue-wave" class="support">
-    	<div class="container">
-        &nbsp;
-        </div>
-    </div>
+    <div id="mast" class="support"></div>
     <div id="mid" class="support py-5">
         <div class="container">
         	<div class="row justify-content-center">

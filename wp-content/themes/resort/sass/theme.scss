@@ -15,15 +15,20 @@
 #top {
     background-color: #d4e1f5;
     border-bottom: 4px solid $primary;
-    position: relative;
+    position: fixed;
+    top: 0;
     z-index:50;
     width: 100%;
+    height: auto;
+    transition: all linear .5s;
 
     #logoarea {
         margin-bottom: -3px;
 
         img {
             max-width: 185px;
+            height: auto;
+            transition: all linear .5s;
 
             @media screen and (min-width:375px) {
                 max-width: 212px;
@@ -118,8 +123,6 @@
 }
 
 .scrolling #top {
-    position: fixed;
-    top: 0;
 
     #logoarea {
         img {
@@ -164,11 +167,12 @@
     padding: 1rem;
     visibility: hidden;
     transition: all ease-out 2s;
-    margin-top: 50px;
+    margin-top: 150px;
     visibility: visible;
     
     @media screen and (min-width:992px) {
         margin-top: 74px;
+        margin-top: 200px;
     }
 }
 
@@ -177,6 +181,7 @@
     background-color: #b4c8eb;
     height: 370px;
     z-index: 10;
+    margin-top: 105px;
 
     @media screen and (min-width:993px) {
         height: 500px;
@@ -184,6 +189,11 @@
 
     @media screen and (min-width:1140px) {
         height: 608px;
+        margin-top: 152px;
+    }
+
+    &.support {
+        height: 40px !important;
     }
 }
 

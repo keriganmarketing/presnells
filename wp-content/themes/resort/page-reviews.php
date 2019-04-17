@@ -5,15 +5,12 @@
  */
 
 get_header(); ?>
-    <div id="blue-wave" class="support">
-    	<div class="container">
-        &nbsp;
-        </div>
-    </div>
+    <div id="mast" class="support"></div>
+
     <div id="mid" class="support">
         <div class="container">
-        	<div class="row">
-            <div id="primary" class="content-area col-md-offset-1 col-md-10">
+        	<div class="row justify-content-center">
+            <div id="primary" class="content-area col-md-10">
                     <main id="main" class="site-main" role="main">
             			<?php while ( have_posts() ) : the_post(); ?>
 							<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
