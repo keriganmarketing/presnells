@@ -83,8 +83,8 @@ get_header(); ?>
         </div><!-- #primary -->
     </div>
 </div>
-<div id="sun" v-parallax="0.2" :min-width="992"></div>
-<div id="sunset" v-parallax="0.1" :min-width="992"></div>
+<div id="sun" v-parallax="0.15" :min-width="992"></div>
+<div id="sunset" v-parallax="0.05" :min-width="992"></div>
 <div id="blue-wave" class="home">
     <div class="container">
         <div class="row no-gutters py-5">

@@ -150,6 +150,19 @@ function resort_scripts() {
 add_action( 'wp_enqueue_scripts', 'resort_scripts' );
 
 /**
+ * Register the block.
+ */
+function table_enqueue_block_editor_assets() {
+	wp_enqueue_script(
+		'table-gutenberg-block-editor-script',
+		get_template_directory_uri() . '/js/editor.blocks.js',
+		[ 'wp-blocks', 'wp-element', 'wp-edit-post' ]
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'table_enqueue_block_editor_assets' );
+
+
+/**
  * Implement the Custom Header feature.
  */
 require wp_normalize_path(get_template_directory() . '/inc/custom-header.php' );

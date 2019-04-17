@@ -216,7 +216,7 @@
         text-decoration: none;
 
         &:hover {
-            box-shadow: 0 0 .5rem $accent;
+            box-shadow: 0 0 .5rem rgba(0,0,0,.3);
         }
 
         .feat-img {
