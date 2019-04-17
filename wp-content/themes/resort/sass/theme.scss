@@ -193,7 +193,7 @@
     }
 
     &.support {
-        height: 40px !important;
+        height: 0px !important;
     }
 }
 
@@ -458,8 +458,8 @@
             line-height: 1.7rem;
     
             @media screen and (min-width: 768px) {
-                font-size: 2rem;
-                line-height: 2.3rem;
+                font-size: 1.9rem;
+                line-height: 2.2rem;
             }
         }
     }
