@@ -6,8 +6,7 @@
 
 get_header(); ?>
     <div id="mast" class="support"></div>
-
-    <div id="mid" class="support">
+    <div id="mid" class="support py-5">
         <div class="container">
         	<div class="row justify-content-center">
             <div id="primary" class="content-area col-md-10">
