@@ -44,7 +44,7 @@
 								<a href="tel:8508484914" class="btn btn-accent d-flex justify-content-start align-items-center w-auto" >
 									<i class="fa fa-phone bg-white rounded text-accent" aria-hidden="true"></i> 
 									<span class="d-md-none text-uppercase" >Call</span>
-									<span class="d-none d-md-inline">(850)848-4914</span>
+									<span class="d-none d-md-inline">(850) 848-4914</span>
 								</a>
 							</div>
 							<div class="menu-btn px-2 py-1 d-lg-none">
