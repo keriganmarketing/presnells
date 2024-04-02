@@ -31,7 +31,7 @@ get_header(); ?>
 <div id="headline" class="text-center"><img src="<?php echo get_template_directory_uri() . '/img/headline.png'; ?>" class="img-fluid" alt="Savor the Sun"></div>
 <kma-slider id="mast"></kma-slider>
 <div id="cta-bar" class="bg-accent py-3 py-md-4 py-lg-5 text-center d-flex justify-content-center flex-wrap">
-    <!-- <div class="p-2 px-md-3" ><a href="https://booking.staylist.app/Presnell" target="_blank" class="btn btn-white bitter btn-lg">Book Online</a></div> -->
+    <div class="p-2 px-md-3" ><a href="https://www.campspot.com/book/presnell-vacation-resort-and-rv-park" target="_blank" class="btn btn-white bitter btn-lg">Book Online</a></div>
     <div class="p-2 px-md-3" ><a href="/sites-rates/rv-sites-pricing/" class="btn btn-white bitter btn-lg">RV Site Rates</a></div>
 </div>
 <div id="mid" class="home py-4 flex-grow-1">
